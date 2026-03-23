@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "organization": "DreamForge Software",
+  "author": "Emile du Toit",
+  "date": "March 2026",
+  "abstract": "Comprehensive application auditor for AI coding agents. Reads project context (README, package.json), asks what to audit (code quality, workflow gaps, security, help modals, performance), suggests trusted skills from skills.sh, runs parallel audit agents, and produces a timestamped markdown report with severity ratings, mitigation suggestions, estimated fix times, and previous audit comparison. Includes safety guardrails, dependency vulnerability scanning, schema drift detection, and Claude Code Agent Teams support.",
+  "homepage": "https://dreamforgesoftware.vercel.app/",
+  "references": [
+    "https://skills.sh",
+    "https://code.claude.com/docs/en/agent-teams",
+    "https://owasp.org/www-project-top-ten/"
+  ]
+}
