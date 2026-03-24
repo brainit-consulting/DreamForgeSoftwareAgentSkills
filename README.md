@@ -102,6 +102,22 @@ Reports are saved to `AuditReports/audit-YYYY-MM-DD-HHmm.md` with:
 - Tests run before and after fixes
 - Never commits secrets without approval
 
+## Demo App — Try the Skill
+
+This repo includes a **Next.js demo app** (`demo-app/`) — a newsletter signup page for [DreamForge Academy](https://dreamforge-academy.vercel.app/) that doubles as a test fixture for the audit skill.
+
+```bash
+cd demo-app
+npm install
+npm run dev
+```
+
+Then run `/audit-my-app all` against it to see the skill in action. The app intentionally has auditable gaps (file-based storage, no rate limiting, no email confirmation) so the skill produces meaningful findings.
+
+**Tech stack:** Next.js 16.2.1, Tailwind CSS 4, shadcn/ui, Zod 4, next-themes
+
+See [demo-app/README.md](demo-app/README.md) for full details and instructions to upgrade it into a production newsletter with Resend or ConvertKit.
+
 ## Development
 
 ### Evals
