@@ -9,10 +9,10 @@ import { Footer } from "@/components/footer";
 export default function Home() {
   return (
     <>
-      <DemoBanner />
       <Header />
       <main className="flex-1">
         <Hero />
+        <DemoBanner />
         <Features />
         <NewsletterForm />
         <About />

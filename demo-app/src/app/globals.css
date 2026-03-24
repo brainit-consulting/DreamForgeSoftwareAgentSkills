@@ -94,8 +94,9 @@
 }
 
 @keyframes ember-glow {
-  0%, 100% { opacity: 0.4; filter: blur(40px); }
-  50% { opacity: 0.7; filter: blur(60px); }
+  0% { opacity: 0.9; filter: blur(30px); }
+  30% { opacity: 0.75; filter: blur(40px); }
+  60%, 100% { opacity: 0.55; filter: blur(50px); }
 }
 
 @keyframes forge-pulse {
@@ -124,7 +125,7 @@
 }
 
 .animate-ember {
-  animation: ember-glow 4s ease-in-out infinite;
+  animation: ember-glow 8s ease-in-out infinite;
 }
 
 .animate-forge-pulse {

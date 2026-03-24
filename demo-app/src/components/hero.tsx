@@ -44,10 +44,10 @@ export function Hero() {
           something extraordinary.
         </p>
 
-        <div className="animate-fade-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="animate-fade-up delay-300 flex justify-center">
           <button
             onClick={scrollToNewsletter}
-            className="group relative px-8 py-4 rounded-full font-semibold text-white
+            className="group relative px-10 py-4 rounded-full font-semibold text-white
                        bg-gradient-to-r from-brand-purple to-brand-blue
                        shadow-[0_10px_40px_rgba(139,92,246,0.3)]
                        hover:shadow-[0_14px_50px_rgba(139,92,246,0.45)]
@@ -57,16 +57,6 @@ export function Hero() {
             Subscribe to Newsletter
             <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </button>
-
-          <a
-            href="https://dreamforge-academy.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-8 py-4 rounded-full font-medium glass
-                       hover:bg-secondary transition-all duration-300"
-          >
-            Visit Academy
-          </a>
         </div>
 
         <button
