@@ -7,6 +7,11 @@ skills-lock.json
 # Audit reports (generated output)
 AuditReports/
 
+# Demo app
+demo-app/node_modules/
+demo-app/.next/
+demo-app/data/
+
 # OS files
 .DS_Store
 Thumbs.db
