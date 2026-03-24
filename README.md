@@ -118,14 +118,21 @@ Then run `/audit-my-app all` against it to see the skill in action. The app inte
 
 See [demo-app/README.md](demo-app/README.md) for full details and instructions to upgrade it into a production newsletter with Resend or ConvertKit.
 
+### Want to evaluate the skill?
+
+Install the official [skill-creator](https://github.com/anthropics/skills) to run automated evals, benchmarks, and variance analysis against the skill:
+
+```bash
+npx skills add https://github.com/anthropics/skills --skill skill-creator
+```
+
+Then run `/skill-creator` and point it at `skills/audit-my-app/` with evals in `evals/evals.json`. It will run the test cases, grade assertions, produce a benchmark report, and launch an interactive viewer for qualitative review.
+
 ## Development
 
 ### Evals
 
-This skill includes test cases in `skills/audit-my-app/evals/evals.json` compatible with the official [skill-creator](https://github.com/anthropics/skills) plugin. To run evals:
-
-1. Install the skill-creator: `npx skills add https://github.com/anthropics/skills --skill skill-creator`
-2. Run `/skill-creator` and point it at the existing skill and evals
+This skill includes 6 test cases in `skills/audit-my-app/evals/evals.json` compatible with the skill-creator. They cover all invocation modes (`all`, `quick`, `security`, `performance`, natural language trigger) and verify report structure, category coverage, severity ratings, and attribution.
 
 ### Dual-format Support
 
