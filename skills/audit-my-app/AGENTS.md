@@ -1,6 +1,10 @@
 ---
 name: audit-my-app
 description: Comprehensive application auditor — reads project context, asks what to audit (code quality, gaps, security, help modals, performance), suggests trusted skills from skills.sh to install, runs parallel audit agents, and produces a timestamped markdown report with severity ratings, mitigation suggestions, and estimated fix times. Works on any project.
+argument-hint: "[all | quick | security | performance]"
+disable-model-invocation: true
+effort: high
+allowed-tools: Read, Grep, Glob, Bash, Agent, Write, WebSearch, AskUserQuestion
 user_invocable: true
 author: Emile du Toit
 license: "© 2026 DreamForge Software"
@@ -29,14 +33,38 @@ Run it with `/audit-my-app` or `/audit-my-app all` for a full sweep.
 
 You are a senior application auditor. Your job is to comprehensively audit the user's application, produce a professional report, and offer to implement fixes.
 
+## Project Context (auto-injected at startup)
+
+The following data was collected automatically when this skill loaded. Use it to skip redundant commands.
+
+- **Working directory:** !`pwd`
+- **Project name:** !`node -e "try{console.log(require('./package.json').name)}catch{console.log('unknown')}" 2>/dev/null || echo "unknown"`
+- **Node version:** !`node --version 2>/dev/null || echo "not installed"`
+- **Package manager:** !`(test -f bun.lockb && echo "bun") || (test -f pnpm-lock.yaml && echo "pnpm") || (test -f yarn.lock && echo "yarn") || (test -f package-lock.json && echo "npm") || echo "unknown"`
+- **Framework:** !`node -e "try{const p=require('./package.json').dependencies||{};const d={...p,...(require('./package.json').devDependencies||{})};console.log(d.next?'Next.js '+d.next:d.nuxt?'Nuxt '+d.nuxt:d.svelte?'Svelte '+d.svelte:d.vue?'Vue '+d.vue:d.react?'React '+d.react:'unknown')}catch{console.log('unknown')}" 2>/dev/null || echo "unknown"`
+- **Dependencies:** !`node -e "try{const p=require('./package.json');console.log(Object.keys({...p.dependencies,...p.devDependencies}).join(', '))}catch{console.log('none')}" 2>/dev/null || echo "none"`
+- **Scripts:** !`node -e "try{const s=require('./package.json').scripts||{};console.log(Object.keys(s).join(', '))}catch{console.log('none')}" 2>/dev/null || echo "none"`
+- **Git status:** !`git rev-parse --is-inside-work-tree 2>/dev/null && echo "repo: $(git branch --show-current), $(git log --oneline -3 2>/dev/null)" || echo "no git repo"`
+- **Installed skills:** !`ls .claude/skills/ 2>/dev/null || echo "none"`
+- **Previous audits:** !`ls AuditReports/audit-*.md 2>/dev/null | sort | tail -1 || echo "none"`
+- **Source structure:** !`find src -type f -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' 2>/dev/null | head -30 | sed 's|^|  |' || find . -maxdepth 3 -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' -o -name '*.py' -o -name '*.go' \) 2>/dev/null | grep -v node_modules | head -30 | sed 's|^|  |' || echo "no source files found"`
+
+### Environment Tools (auto-detected)
+
+- **Vercel CLI:** !`vercel --version 2>/dev/null || echo "not installed"`
+- **GitHub CLI:** !`gh --version 2>/dev/null | head -1 || echo "not installed"`
+- **TypeScript:** !`npx tsc --version 2>/dev/null || echo "not installed"`
+- **Docker:** !`docker --version 2>/dev/null || echo "not installed"`
+- **Claude CLI:** !`claude --version 2>/dev/null || echo "not installed"`
+
 ## Phase 1: Understand the Project
 
-Read these files to understand the project:
+Review the **auto-injected Project Context** above — this already gives you the framework, dependencies, scripts, and source structure. Then read these files for deeper understanding:
 
 1. **README.md** (or CLAUDE.md if present) — project overview, architecture, conventions
-2. **package.json** (or equivalent) — dependencies, scripts, framework version
+2. **package.json** (or equivalent) — full dependency details if the auto-injected summary isn't sufficient
 
-Determine:
+Determine (using auto-injected data + file reads):
 - Framework and version (Next.js, React, Vue, Svelte, etc.)
 - Database ORM (Drizzle, Prisma, Mongoose, etc.)
 - Auth provider (Better Auth, NextAuth, Clerk, Supabase Auth, etc.)
@@ -74,11 +102,7 @@ This gives a 0-100 score with actionable diagnostics. Include the score and key 
 
 ## Phase 3: Check & Suggest Skills from skills.sh
 
-List currently installed skills:
-
-```bash
-ls .claude/skills/
-```
+The **Installed skills** field in the auto-injected Project Context above already lists what's installed. Use that — do not re-run `ls .claude/skills/`.
 
 Based on the detected stack AND selected audit scope, search skills.sh for relevant skills to enhance the audit. Use **WebSearch** to find them:
 
@@ -117,50 +141,28 @@ If the project has any frontend (web UI, components, pages), **strongly recommen
 
 ## Phase 3.5: Environment & Tooling Check
 
-If the project deploys to **Vercel** (detected from package.json, vercel.json, or CLAUDE.md):
+The **Environment Tools** section in the auto-injected Project Context above already detected which tools are installed. Use that data — do not re-run version checks. Only offer to install tools that show "not installed" above.
+
+If the project deploys to **Vercel** (detected from auto-injected dependencies or vercel.json/CLAUDE.md):
 
 ### Vercel CLI
 
-Check if Vercel CLI is available:
-
-```bash
-vercel --version 2>/dev/null || echo "NOT INSTALLED"
-```
-
-If not installed, offer to install it:
+If the auto-injected context shows Vercel CLI as "not installed", offer to install it:
 > "Your project deploys to Vercel. The Vercel CLI lets you manage deployments, env vars, and domains from the terminal. Install it? (`npm i -g vercel`)"
 
 ### GitHub CLI
 
-Check if `gh` is available:
-
-```bash
-gh --version 2>/dev/null || echo "NOT INSTALLED"
-```
-
-If not installed, offer to install it:
+If the auto-injected context shows GitHub CLI as "not installed", offer to install it:
 > "The GitHub CLI (`gh`) helps manage PRs, issues, and deployments from the terminal. Install it? ([cli.github.com](https://cli.github.com/))"
 
 ### Git Repository
 
-Check if the project has a git repo:
-
-```bash
-git status 2>/dev/null || echo "NO GIT REPO"
-```
-
-If no repo found, offer to initialize one:
+If the auto-injected context shows "no git repo", offer to initialize one:
 > "No git repository found. Want me to initialize one? This enables version control, checkpoint commits, and safe rollbacks during fixes."
 
 ### Claude Code Agent Teams
 
-Check if Claude Code agent teams are available:
-
-```bash
-claude --version 2>/dev/null || echo "Claude CLI not found"
-```
-
-If Claude Code v2.1.32+ is detected, check if agent teams are enabled:
+If the auto-injected context shows Claude CLI is installed, check if agent teams are enabled:
 
 ```bash
 grep -q "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS" ~/.claude/settings.json 2>/dev/null && echo "ENABLED" || echo "NOT ENABLED"
@@ -400,13 +402,7 @@ Wait for all agents to complete, then consolidate into a single report.
 
 ### Previous Audit Detection
 
-Before writing, check for prior reports:
-
-```bash
-ls AuditReports/audit-*.md 2>/dev/null | sort | tail -1
-```
-
-If found, read the last report and populate the "Changes Since Last Audit" section.
+The **Previous audits** field in the auto-injected Project Context already shows the most recent report filename (or "none"). If a previous audit exists, read that report and populate the "Changes Since Last Audit" section.
 
 ## Phase 6: Offer to Implement
 

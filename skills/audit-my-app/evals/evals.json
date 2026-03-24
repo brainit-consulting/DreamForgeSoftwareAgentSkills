@@ -1,0 +1,179 @@
+{
+  "skill_name": "audit-my-app",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/audit-my-app all",
+      "expected_output": "A full audit report covering all 5 categories (Code Quality, Workflow Gaps, Help Modals/Docs, Security, Performance) saved to AuditReports/ with an executive summary containing severity counts, a mitigation plan, and a 'Changes Since Last Audit' section.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "report_file_created",
+          "type": "file_exists",
+          "description": "An audit report markdown file is created in AuditReports/ directory",
+          "pattern": "AuditReports/audit-*.md"
+        },
+        {
+          "name": "executive_summary_present",
+          "type": "content_contains",
+          "description": "Report contains an Executive Summary section with severity counts",
+          "pattern": "Executive Summary"
+        },
+        {
+          "name": "all_categories_present",
+          "type": "content_contains_all",
+          "description": "Report covers all 5 audit categories",
+          "values": ["Code Quality", "Security", "Performance"]
+        },
+        {
+          "name": "mitigation_plan_present",
+          "type": "content_contains",
+          "description": "Report contains a prioritized mitigation plan",
+          "pattern": "Mitigation Plan"
+        },
+        {
+          "name": "severity_ratings_used",
+          "type": "content_contains_any",
+          "description": "Findings include severity ratings",
+          "values": ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
+        },
+        {
+          "name": "effort_estimates_present",
+          "type": "content_contains_any",
+          "description": "Findings include effort estimates",
+          "values": ["Quick (~5 min)", "Medium (~30 min)", "Complex (~2+ hrs)"]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "/audit-my-app quick",
+      "expected_output": "A focused audit report covering only Code Quality and Security categories, saved to AuditReports/. Should be faster than a full audit and skip Performance, Workflow Gaps, and Help Modals.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "report_file_created",
+          "type": "file_exists",
+          "description": "An audit report markdown file is created",
+          "pattern": "AuditReports/audit-*.md"
+        },
+        {
+          "name": "code_quality_present",
+          "type": "content_contains",
+          "description": "Report covers Code Quality",
+          "pattern": "Code Quality"
+        },
+        {
+          "name": "security_present",
+          "type": "content_contains",
+          "description": "Report covers Security",
+          "pattern": "Security"
+        },
+        {
+          "name": "scope_limited",
+          "type": "content_contains",
+          "description": "Report scope indicates quick/limited audit",
+          "pattern": "Scope"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "/audit-my-app security",
+      "expected_output": "A security-only audit report focusing on OWASP Top 10 issues, auth, authorization, XSS, CSRF, data isolation, and secrets exposure. Saved to AuditReports/.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "report_file_created",
+          "type": "file_exists",
+          "description": "An audit report markdown file is created",
+          "pattern": "AuditReports/audit-*.md"
+        },
+        {
+          "name": "security_focus",
+          "type": "content_contains",
+          "description": "Report focuses on security findings",
+          "pattern": "Security"
+        },
+        {
+          "name": "owasp_coverage",
+          "type": "content_contains_any",
+          "description": "Report references OWASP or common security concerns",
+          "values": ["OWASP", "Authentication", "Authorization", "XSS", "CSRF", "injection"]
+        },
+        {
+          "name": "file_paths_included",
+          "type": "content_matches",
+          "description": "Security findings reference specific file paths",
+          "pattern": "\\*\\*File:\\*\\*"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I want to do a full audit of my app, check everything — code quality, security, performance, the works. Also check if my help docs are accurate.",
+      "expected_output": "The skill should trigger and run a full guided audit starting with Phase 1 (project understanding), then asking what to audit via AskUserQuestion, suggesting skills, and running parallel agents.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "project_detection",
+          "type": "output_contains",
+          "description": "Skill detects and summarizes the project stack",
+          "pattern": "I've read your project"
+        },
+        {
+          "name": "asks_audit_scope",
+          "type": "tool_used",
+          "description": "Skill uses AskUserQuestion to ask what to audit",
+          "tool": "AskUserQuestion"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "/audit-my-app performance",
+      "expected_output": "A performance-only audit report checking for waterfall requests, bundle size issues, missing caching, unnecessary re-renders, and database query efficiency. Saved to AuditReports/.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "report_file_created",
+          "type": "file_exists",
+          "description": "An audit report markdown file is created",
+          "pattern": "AuditReports/audit-*.md"
+        },
+        {
+          "name": "performance_focus",
+          "type": "content_contains",
+          "description": "Report focuses on performance findings",
+          "pattern": "Performance"
+        },
+        {
+          "name": "performance_patterns_checked",
+          "type": "content_contains_any",
+          "description": "Report checks common performance issues",
+          "values": ["bundle", "caching", "re-render", "waterfall", "Promise.all", "dynamic"]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "/audit-my-app all",
+      "expected_output": "When a previous audit exists in AuditReports/, the new report should contain a 'Changes Since Last Audit' section comparing findings.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "previous_audit_comparison",
+          "type": "content_contains_any",
+          "description": "Report compares against previous audit if one exists",
+          "values": ["Changes Since Last Audit", "first audit", "Fixed", "New", "Recurring"]
+        },
+        {
+          "name": "dreamforge_attribution",
+          "type": "content_contains",
+          "description": "Report includes DreamForge Software attribution",
+          "pattern": "DreamForge Software"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "dreamforge-audit",
+  "description": "Comprehensive application auditor — runs parallel agents to check code quality, workflow gaps, security (OWASP), help docs, and performance. Produces timestamped reports with severity ratings, fix instructions, and effort estimates.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Emile du Toit",
+    "organization": "DreamForge Software"
+  },
+  "homepage": "https://dreamforgesoftware.vercel.app/",
+  "repository": "https://github.com/brainit-consulting/DreamForgeSoftwareAgentSkills",
+  "license": "MIT"
+}
