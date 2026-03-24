@@ -1,0 +1,12 @@
+# Local skill installations
+.claude/
+.agents/
+.windsurf/
+skills-lock.json
+
+# Audit reports (generated output)
+AuditReports/
+
+# OS files
+.DS_Store
+Thumbs.db
