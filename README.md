@@ -81,7 +81,7 @@ After installation, invoke the skill:
 | Code Quality | Unused imports, dead code, type safety, error handling, N+1 queries |
 | Workflow Gaps | Broken flows, incomplete features, TODO comments, dead UI elements |
 | Help Modals / Docs | Verify docs match actual features, find undocumented features |
-| Security | OWASP Top 10, auth, authorization, XSS, CSRF, data leaks |
+| Security | [OWASP Top 10](https://owasp.org/www-project-top-ten/), auth, authorization, XSS, CSRF, data leaks |
 | Performance | Waterfalls, bundle size, caching, re-renders, query efficiency |
 
 ### Report Output
