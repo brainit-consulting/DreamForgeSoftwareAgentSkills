@@ -34,17 +34,17 @@ Use this skill when:
 ## Project Context (auto-injected)
 
 - **Working directory:** !`pwd`
-- **Project name:** !`node -e "try{console.log(require('./package.json').name)}catch{console.log('unknown')}" 2>/dev/null || echo "unknown"`
-- **Node version:** !`node --version 2>/dev/null || echo "not installed"`
-- **Package manager:** !`(test -f bun.lockb && echo "bun") || (test -f pnpm-lock.yaml && echo "pnpm") || (test -f yarn.lock && echo "yarn") || (test -f package-lock.json && echo "npm") || echo "unknown"`
-- **Framework:** !`node -e "try{const p=require('./package.json').dependencies||{};const d={...p,...(require('./package.json').devDependencies||{})};console.log(d.next?'Next.js '+d.next:d.nuxt?'Nuxt '+d.nuxt:d.svelte?'Svelte '+d.svelte:d.vue?'Vue '+d.vue:d.react?'React '+d.react:'unknown')}catch{console.log('unknown')}" 2>/dev/null || echo "unknown"`
-- **Git status:** !`git rev-parse --is-inside-work-tree 2>/dev/null && echo "repo: $(git branch --show-current)" || echo "no git repo"`
-- **Installed skills:** !`ls .claude/skills/ 2>/dev/null || echo "none"`
-- **Previous audits:** !`ls AuditReports/audit-*.md 2>/dev/null | sort | tail -1 || echo "none"`
+- **Project name:** !`node -e "try{console.log(require('./package.json').name)}catch{console.log('unknown')}"`
+- **Node version:** !`node --version`
+- **Package manager:** !`node -e "const f=require('fs').existsSync;console.log(f('bun.lockb')?'bun':f('pnpm-lock.yaml')?'pnpm':f('yarn.lock')?'yarn':f('package-lock.json')?'npm':'unknown')"`
+- **Framework:** !`node -e "try{const p=require('./package.json').dependencies||{};const d={...p,...(require('./package.json').devDependencies||{})};console.log(d.next?'Next.js '+d.next:d.nuxt?'Nuxt '+d.nuxt:d.svelte?'Svelte '+d.svelte:d.vue?'Vue '+d.vue:d.react?'React '+d.react:'unknown')}catch{console.log('unknown')}"`
+- **Git status:** !`git branch --show-current`
+- **Installed skills:** !`ls .claude/skills/`
+- **Previous audits:** !`node -e "const g=require('fs').readdirSync;try{const f=g('AuditReports').filter(x=>x.startsWith('audit-')).sort();console.log(f.length?f[f.length-1]:'none')}catch{console.log('none')}"`
 
 ## Environment Tools (auto-detected)
 
-- **Vercel CLI:** !`vercel --version 2>/dev/null || echo "not installed"`
-- **GitHub CLI:** !`gh --version 2>/dev/null | head -1 || echo "not installed"`
-- **TypeScript:** !`npx tsc --version 2>/dev/null || echo "not installed"`
-- **Docker:** !`docker --version 2>/dev/null || echo "not installed"`
+- **Vercel CLI:** !`node -e "const{execSync:e}=require('child_process');try{console.log(e('vercel --version').toString().trim())}catch{console.log('not installed')}"`
+- **GitHub CLI:** !`node -e "const{execSync:e}=require('child_process');try{console.log(e('gh --version').toString().trim().split('\n')[0])}catch{console.log('not installed')}"`
+- **TypeScript:** !`node -e "const{execSync:e}=require('child_process');try{console.log(e('npx tsc --version').toString().trim())}catch{console.log('not installed')}"`
+- **Docker:** !`node -e "const{execSync:e}=require('child_process');try{console.log(e('docker --version').toString().trim())}catch{console.log('not installed')}"`
