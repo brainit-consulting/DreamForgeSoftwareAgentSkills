@@ -32,5 +32,4 @@ echo   1. Restart Claude Code (type /clear)
 echo   2. Run /audit-my-app
 echo.
 
-REM Clean up this installer
-del "%~f0" >nul 2>&1
+echo You can delete install.bat from this directory.
