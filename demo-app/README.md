@@ -104,15 +104,15 @@ This app is designed to be audited by the `audit-my-app` skill:
 **macOS / Linux / Git Bash:**
 
 ```bash
-mkdir -p .claude/skills
-curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude/skills/audit-my-app.md
+mkdir -p .claude/skills/audit-my-app
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude/skills/audit-my-app/SKILL.md
 ```
 
 **Windows (CMD / PowerShell):**
 
 ```cmd
-mkdir .claude\skills
-curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude\skills\audit-my-app.md
+mkdir .claude\skills\audit-my-app
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude\skills\audit-my-app\SKILL.md
 ```
 
 **Or via skills.sh (for Cursor, Codex, OpenCode):**
