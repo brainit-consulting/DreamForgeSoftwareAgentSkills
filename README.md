@@ -8,11 +8,11 @@ A collection of AI agent skills by [DreamForge Software](https://dreamforgesoftw
 
 Comprehensive application auditor that reads your project context, asks what to audit (code quality, gaps, security, help modals, performance), suggests trusted skills to install, runs parallel audit agents, and produces a timestamped markdown report with severity ratings, mitigation suggestions, and estimated fix times.
 
-**Works on any project** — detects your framework, database, auth, and deployment automatically.
+**Works on any project** — detects your framework, database, auth, and deployment automatically via dynamic context injection.
 
 **Features:**
 - Multi-category audit: code quality, workflow gaps, security (OWASP), help docs, performance
-- Automatic project detection — reads your stack, tools, and environment in Phase 1
+- Dynamic context injection — auto-detects project stack, tools, and environment at startup
 - Parallel agent execution for speed
 - Timestamped reports with executive summary
 - Previous audit comparison (shows what was fixed, what's new)
