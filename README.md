@@ -8,11 +8,11 @@ A collection of AI agent skills by [DreamForge Software](https://dreamforgesoftw
 
 Comprehensive application auditor that reads your project context, asks what to audit (code quality, gaps, security, help modals, performance), suggests trusted skills to install, runs parallel audit agents, and produces a timestamped markdown report with severity ratings, mitigation suggestions, and estimated fix times.
 
-**Works on any project** — detects your framework, database, auth, and deployment automatically via dynamic context injection.
+**Works on any project** — detects your framework, database, auth, and deployment automatically.
 
 **Features:**
 - Multi-category audit: code quality, workflow gaps, security (OWASP), help docs, performance
-- Dynamic context injection — auto-detects project stack, tools, and environment at startup
+- Automatic project detection — reads your stack, tools, and environment in Phase 1
 - Parallel agent execution for speed
 - Timestamped reports with executive summary
 - Previous audit comparison (shows what was fixed, what's new)
@@ -67,11 +67,14 @@ Restart Claude Code — the skill will appear as `/audit-my-app`.
 npx skills add brainit-consulting/DreamForgeSoftwareAgentSkills --skill audit-my-app
 ```
 
-The skill will be available as `/dreamforge-audit:audit-my-app`.
-
 ## Usage
 
-After installation, invoke the skill:
+After installation, invoke the skill. Plugin installs use the namespaced format, manual/skills.sh installs use the short form:
+
+```
+/dreamforge-audit:audit-my-app       # Plugin install
+/audit-my-app                        # Manual or skills.sh install
+```
 
 ```
 /audit-my-app                # Full guided audit with interview
