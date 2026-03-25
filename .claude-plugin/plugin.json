@@ -8,5 +8,7 @@
   },
   "homepage": "https://dreamforgesoftware.vercel.app/",
   "repository": "https://github.com/brainit-consulting/DreamForgeSoftwareAgentSkills",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": ["audit", "security", "performance", "code-quality", "owasp"],
+  "skills": "./skills/"
 }
