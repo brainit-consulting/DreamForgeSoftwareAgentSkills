@@ -102,7 +102,12 @@ In Vercel, set Root Directory to `demo-app` and add your environment variables.
 This app is designed to be audited by the `audit-my-app` skill:
 
 ```bash
-# Install the skill
+# Install the skill (Claude Code — copies to .claude/skills/ where Claude discovers them)
+mkdir -p .claude/skills/audit-my-app
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/SKILL.md -o .claude/skills/audit-my-app/SKILL.md
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude/skills/audit-my-app/AGENTS.md
+
+# Or via skills.sh (for Cursor, Codex, OpenCode)
 npx skills add brainit-consulting/DreamForgeSoftwareAgentSkills --skill audit-my-app
 
 # Run the audit

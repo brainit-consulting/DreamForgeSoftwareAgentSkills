@@ -26,19 +26,32 @@ Comprehensive application auditor that reads your project context, asks what to 
 
 ## Install
 
-### Option 1: Skills.sh (works with Claude Code, Cursor, Codex, OpenCode, and more)
+### Option 1: Direct Install (Claude Code)
+
+Copy the skill directly into your project's `.claude/skills/` directory — this is where Claude Code discovers skills:
 
 ```bash
-npx skills add brainit-consulting/DreamForgeSoftwareAgentSkills
+mkdir -p .claude/skills/audit-my-app
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/SKILL.md -o .claude/skills/audit-my-app/SKILL.md
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude/skills/audit-my-app/AGENTS.md
 ```
 
-Or install a specific skill:
+Restart Claude Code — the skill will appear as `/audit-my-app`.
+
+### Option 2: Skills.sh (works with Cursor, Codex, OpenCode, and more)
 
 ```bash
 npx skills add brainit-consulting/DreamForgeSoftwareAgentSkills --skill audit-my-app
 ```
 
-### Option 2: Claude Code Plugin (official marketplace)
+> **Note for Claude Code users:** `npx skills add` installs to `.agents/skills/`, but Claude Code discovers skills from `.claude/skills/`. After installing with skills.sh, copy the skill to the correct location:
+>
+> ```bash
+> mkdir -p .claude/skills/audit-my-app
+> cp .agents/skills/audit-my-app/* .claude/skills/audit-my-app/
+> ```
+
+### Option 3: Claude Code Plugin (official marketplace)
 
 ```bash
 claude --plugin-dir ./DreamForgeSoftwareAgentSkills
@@ -134,14 +147,17 @@ Then run `/skill-creator` and point it at `skills/audit-my-app/` with evals in `
 
 This skill includes 6 test cases in `skills/audit-my-app/evals/evals.json` compatible with the skill-creator. They cover all invocation modes (`all`, `quick`, `security`, `performance`, natural language trigger) and verify report structure, category coverage, severity ratings, and attribution.
 
-### Dual-format Support
+### Distribution Formats
 
-This repo supports both distribution formats:
+This repo supports multiple distribution formats:
 
-| Format | Files used | Install method |
-|--------|-----------|---------------|
-| **Skills.sh** | `SKILL.md`, `AGENTS.md`, `metadata.json` | `npx skills add ...` |
-| **Claude Code Plugin** | `.claude-plugin/plugin.json`, `skills/*/SKILL.md` | `claude plugin install ...` |
+| Format | Files used | Install method | Target directory |
+| ------ | ---------- | -------------- | ---------------- |
+| **Direct Install** | `SKILL.md`, `AGENTS.md` | `curl` (see Option 1 above) | `.claude/skills/` |
+| **Skills.sh** | `SKILL.md`, `AGENTS.md`, `metadata.json` | `npx skills add ...` | `.agents/skills/` |
+| **Claude Code Plugin** | `.claude-plugin/plugin.json`, `skills/*/SKILL.md` | `claude plugin install ...` | Plugin directory |
+
+> **Important:** Claude Code discovers skills from `.claude/skills/`, not `.agents/skills/`. If you use `npx skills add`, you must copy the skill to `.claude/skills/` for Claude Code to load it (see Option 2 above).
 
 ## Author
 
