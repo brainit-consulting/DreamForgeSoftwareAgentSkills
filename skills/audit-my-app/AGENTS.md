@@ -289,7 +289,7 @@ Each agent must be given a specific, detailed prompt. Here are the prompts:
 > 2. **Authorization**: Do ALL server actions verify roles? Can a regular user call admin actions?
 > 3. **Input validation**: Are inputs sanitized? Check for XSS via dangerouslySetInnerHTML, unsanitized user content
 > 4. **Data isolation**: Can users query other users'/orgs' data? Are DB queries properly scoped with ownership checks?
-> 5. **Secrets**: Are API keys, passwords, or tokens exposed in client-side code or git history?
+> 5. **Secrets**: Are API keys, passwords, or tokens exposed in client-side code or git history? Before flagging `.env` files, check if they are listed in `.gitignore` — local-only env files that are properly gitignored are low risk, not critical. Only flag as critical if secrets are committed to git, exposed in client bundles, or missing from `.gitignore`.
 > 6. **CSRF**: Are state-changing actions protected?
 > 7. **Injection**: SQL injection, command injection, template injection risks?
 > 8. **Email**: Can user input inject HTML into outgoing emails?
