@@ -108,12 +108,16 @@ This app is designed to be audited by the `audit-my-app` skill:
 /plugin install dreamforge-audit
 ```
 
-**Manual Install (Claude Code):**
+**One-Line Install (macOS/Linux):**
 
 ```bash
-mkdir -p .claude/skills/audit-my-app
-curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/SKILL.md -o .claude/skills/audit-my-app/SKILL.md
-curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude/skills/audit-my-app/AGENTS.md
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/install.sh | bash
+```
+
+**One-Line Install (Windows CMD):**
+
+```cmd
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/install.bat -o install.bat && install.bat
 ```
 
 **Skills.sh (Cursor, Codex, OpenCode):**

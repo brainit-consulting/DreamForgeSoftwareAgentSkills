@@ -39,24 +39,18 @@ The skill will be available as `/dreamforge-audit:audit-my-app`.
 
 > **Want wider reach?** You can also submit plugins to the [official Anthropic marketplace](https://claude.ai/settings/plugins/submit).
 
-### Option 2: Manual Install (Claude Code)
-
-Download the skill files directly into your project:
+### Option 2: One-Line Install (Claude Code)
 
 **macOS / Linux / Git Bash:**
 
 ```bash
-mkdir -p .claude/skills/audit-my-app
-curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/SKILL.md -o .claude/skills/audit-my-app/SKILL.md
-curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude/skills/audit-my-app/AGENTS.md
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/install.sh | bash
 ```
 
-**Windows (CMD / PowerShell):**
+**Windows (CMD):**
 
 ```cmd
-mkdir .claude\skills\audit-my-app
-curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/SKILL.md -o .claude\skills\audit-my-app\SKILL.md
-curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude\skills\audit-my-app\AGENTS.md
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/install.bat -o install.bat && install.bat
 ```
 
 Restart Claude Code — the skill will appear as `/audit-my-app`.

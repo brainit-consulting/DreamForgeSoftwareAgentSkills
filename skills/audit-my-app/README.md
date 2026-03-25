@@ -25,22 +25,18 @@ This skill runs a full audit of your application. In plain English:
 /plugin install dreamforge-audit
 ```
 
-### Manual Install (Claude Code)
+### One-Line Install (Claude Code)
 
 **macOS / Linux / Git Bash:**
 
 ```bash
-mkdir -p .claude/skills/audit-my-app
-curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/SKILL.md -o .claude/skills/audit-my-app/SKILL.md
-curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude/skills/audit-my-app/AGENTS.md
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/install.sh | bash
 ```
 
-**Windows (CMD / PowerShell):**
+**Windows (CMD):**
 
 ```cmd
-mkdir .claude\skills\audit-my-app
-curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/SKILL.md -o .claude\skills\audit-my-app\SKILL.md
-curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude\skills\audit-my-app\AGENTS.md
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/install.bat -o install.bat && install.bat
 ```
 
 ### Skills.sh (Cursor, Codex, OpenCode)
