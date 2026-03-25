@@ -29,10 +29,6 @@ Use this skill when:
 ## Project Context (auto-injected)
 
 - **Working directory:** !`pwd`
-- **Project name:** !`node -e "try{console.log(require('./package.json').name)}catch{console.log('unknown')}"`
-- **Node version:** !`node --version`
-- **Package manager:** !`node -e "const f=require('fs').existsSync;console.log(f('bun.lockb')?'bun':f('pnpm-lock.yaml')?'pnpm':f('yarn.lock')?'yarn':f('package-lock.json')?'npm':'unknown')"`
-- **Framework:** !`node -e "try{const d={...require('./package.json').dependencies,...require('./package.json').devDependencies};console.log(d.next?'Next.js '+d.next:d.react?'React '+d.react:'unknown')}catch{console.log('unknown')}"`
 - **Git branch:** !`git branch --show-current`
 - **Git recent:** !`git log --oneline -3`
 - **Installed skills:** !`ls .claude/skills/`

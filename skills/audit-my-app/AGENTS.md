@@ -36,16 +36,9 @@ You are a senior application auditor. Your job is to comprehensively audit the u
 The following data was collected automatically when this skill loaded. Use it to skip redundant commands.
 
 - **Working directory:** !`pwd`
-- **Project name:** !`node -e "try{console.log(require('./package.json').name)}catch{console.log('unknown')}"`
-- **Node version:** !`node --version`
-- **Package manager:** !`node -e "const f=require('fs').existsSync;console.log(f('bun.lockb')?'bun':f('pnpm-lock.yaml')?'pnpm':f('yarn.lock')?'yarn':f('package-lock.json')?'npm':'unknown')"`
-- **Framework:** !`node -e "try{const d={...require('./package.json').dependencies,...require('./package.json').devDependencies};console.log(d.next?'Next.js '+d.next:d.react?'React '+d.react:'unknown')}catch{console.log('unknown')}"`
-- **Dependencies:** !`node -e "try{const p=require('./package.json');console.log(Object.keys({...p.dependencies,...p.devDependencies}).join(', '))}catch{console.log('none')}"`
-- **Scripts:** !`node -e "try{const s=require('./package.json').scripts;console.log(Object.keys(s).join(', '))}catch{console.log('none')}"`
 - **Git branch:** !`git branch --show-current`
 - **Git recent:** !`git log --oneline -3`
 - **Installed skills:** !`ls .claude/skills/`
-- **Previous audits:** !`node -e "try{const f=require('fs').readdirSync('AuditReports').filter(x=>x.startsWith('audit-')).sort();console.log(f.length?f[f.length-1]:'none')}catch{console.log('none')}"`
 
 ## Phase 1: Understand the Project
 
