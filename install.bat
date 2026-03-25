@@ -33,4 +33,4 @@ echo   2. Run /audit-my-app
 echo.
 
 REM Clean up this installer
-del "%~f0"
+del "%~f0" >nul 2>&1
