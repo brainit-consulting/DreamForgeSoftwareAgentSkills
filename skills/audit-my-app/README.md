@@ -18,9 +18,14 @@ This skill runs a full audit of your application. In plain English:
 
 ## Install
 
-### Claude Code (recommended)
+### Claude Code Plugin (Recommended)
 
-Create a skill directory and download the files:
+```bash
+/plugin marketplace add brainit-consulting/DreamForgeSoftwareAgentSkills
+/plugin install dreamforge-audit
+```
+
+### Manual Install (Claude Code)
 
 **macOS / Linux / Git Bash:**
 
@@ -38,21 +43,11 @@ curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftware
 curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude\skills\audit-my-app\AGENTS.md
 ```
 
-Restart Claude Code — the skill will appear as `/audit-my-app`.
-
-### Skills.sh (Cursor, Codex, OpenCode, and more)
+### Skills.sh (Cursor, Codex, OpenCode)
 
 ```bash
 npx skills add brainit-consulting/DreamForgeSoftwareAgentSkills --skill audit-my-app
 ```
-
-> **Note for Claude Code users:** `npx skills add` installs to `.agents/skills/`, but Claude Code discovers skills from `.claude/skills/<name>/SKILL.md`. After installing, copy both files:
->
-> ```bash
-> mkdir -p .claude/skills/audit-my-app
-> cp .agents/skills/audit-my-app/SKILL.md .claude/skills/audit-my-app/SKILL.md
-> cp .agents/skills/audit-my-app/AGENTS.md .claude/skills/audit-my-app/AGENTS.md
-> ```
 
 ## Usage
 

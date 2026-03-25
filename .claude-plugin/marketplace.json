@@ -1,0 +1,15 @@
+{
+  "name": "dreamforge-skills",
+  "description": "AI agent skills by DreamForge Software",
+  "owner": {
+    "name": "DreamForge Software",
+    "url": "https://dreamforgesoftware.vercel.app/"
+  },
+  "plugins": [
+    {
+      "name": "dreamforge-audit",
+      "description": "Comprehensive application auditor — runs parallel agents to check code quality, security, performance, and more. Produces timestamped reports with severity ratings and fix estimates.",
+      "source": "."
+    }
+  ]
+}

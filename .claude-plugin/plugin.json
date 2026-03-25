@@ -1,7 +1,7 @@
 {
   "name": "dreamforge-audit",
   "description": "Comprehensive application auditor — runs parallel agents to check code quality, workflow gaps, security (OWASP), help docs, and performance. Produces timestamped reports with severity ratings, fix instructions, and effort estimates.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Emile du Toit",
     "organization": "DreamForge Software"
