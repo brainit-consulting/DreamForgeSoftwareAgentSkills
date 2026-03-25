@@ -200,7 +200,31 @@ Before launching audit agents, run these quick automated checks and include resu
 npm audit --json 2>/dev/null || echo "npm audit not available"
 ```
 
-Summarize: total vulnerabilities by severity (critical, high, moderate, low), and list the top 5 most impactful. Include `npm audit fix` as the recommended fix where safe.
+Summarize: total vulnerabilities by severity (critical, high, moderate, low), and list the top 5 most impactful. Include `npm audit fix` as the recommended fix where safe, but with the Next.js protection described below.
+
+#### Next.js Version Protection
+
+**CRITICAL:** `npm audit fix` can silently bump Next.js across minor versions, which may introduce breaking deployment incompatibilities (e.g., Next.js 16.2.x outputs ES modules that Vercel's CommonJS launcher cannot require, causing all API routes and server-rendered pages to return 500 — while the build shows no errors).
+
+When running `npm audit fix` or `npm audit fix --force`:
+
+1. **Before running**, record the current Next.js version:
+   ```bash
+   node -e "console.log(require('./node_modules/next/package.json').version)" 2>/dev/null || echo "Next.js not installed"
+   ```
+2. **Run** `npm audit fix`
+3. **After running**, check if Next.js version changed:
+   ```bash
+   node -e "console.log(require('./node_modules/next/package.json').version)" 2>/dev/null
+   ```
+4. **If Next.js was bumped across a minor version** (e.g., 16.1.x → 16.2.x), immediately revert:
+   ```bash
+   git checkout -- package-lock.json
+   npm install
+   ```
+   Then report to the user: "npm audit fix attempted to bump Next.js from {old} to {new}. This was reverted because cross-minor Next.js upgrades can break Vercel deployments. Consider pinning Next.js to a patch range (e.g., `~16.1.0` instead of `^16.1.0`) in package.json."
+
+5. **Recommend pinning**: If package.json uses `^` for the Next.js version (e.g., `"^16.1.0"`), flag this as a **MEDIUM** severity finding and recommend changing it to `~` (patch-only updates, e.g., `"~16.1.0"`) to prevent future accidental minor bumps.
 
 ### Schema/Migration Drift Detection
 
@@ -446,6 +470,7 @@ After presenting the report (whether implementing or not), tell the user:
 15. **Rollback plan** — for complex fixes (effort: Complex), explain to the user how to revert if something goes wrong before implementing
 16. **Never commit secrets** — NEVER stage or commit .env files, API keys, passwords, tokens, or credentials without explicit user approval. Always check `git diff --staged` for sensitive patterns before committing. If secrets are accidentally staged, unstage them immediately and add the file to .gitignore.
 17. **Clean env vars** — when setting environment variables via Vercel CLI or any tool, always strip whitespace and trailing newlines from values to prevent broken keys
+18. **Never bump Next.js across minor versions** — `npm audit fix` can silently upgrade Next.js (e.g., 16.1.x → 16.2.x), which breaks Vercel deployments due to ESM/CJS incompatibilities. Always record the Next.js version before running `npm audit fix`, verify it afterward, and revert `package-lock.json` if a minor bump occurred. Recommend pinning Next.js with `~` (e.g., `"~16.1.0"`) instead of `^`.
 
 ---
 

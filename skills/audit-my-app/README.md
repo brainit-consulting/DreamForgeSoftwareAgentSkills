@@ -75,6 +75,12 @@ Reports are saved to `AuditReports/audit-YYYY-MM-DD-HHmm.md` with:
 - Mitigation plan (Immediate / Short-term / Future)
 - Changes since last audit
 
+## Known Incompatibility: Next.js 16.2.x on Vercel
+
+> **Warning:** Next.js 16.2.1+ outputs server route bundles as ES modules, but Vercel's serverless launcher (`___next_launcher.cjs`) uses CommonJS `require()` to load them. This causes **all API routes and server-rendered pages to return 500** while the build shows no errors. Static/client pages still work.
+>
+> This skill protects against this by checking the Next.js version before and after running `npm audit fix` and reverting any cross-minor bump (e.g., 16.1.x → 16.2.x). It also recommends pinning Next.js with `~` (e.g., `"~16.1.0"`) instead of `^` to prevent accidental upgrades.
+
 ## Safety Rules
 
 - No regressions — TypeScript check before every commit
@@ -83,6 +89,7 @@ Reports are saved to `AuditReports/audit-YYYY-MM-DD-HHmm.md` with:
 - Tests run before and after fixes
 - Rollback plan for complex changes
 - Never commits secrets without approval
+- Never bumps Next.js across minor versions via `npm audit fix`
 
 ## Requirements
 
