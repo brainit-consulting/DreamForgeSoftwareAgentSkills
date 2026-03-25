@@ -1,13 +1,11 @@
 ---
 name: audit-my-app
-description: Comprehensive application auditor — reads project context, asks what to audit (code quality, gaps, security, help modals, performance), suggests trusted skills from skills.sh to install, runs parallel audit agents, and produces a timestamped markdown report with severity ratings, mitigation suggestions, and estimated fix times. Works on any project.
+description: Comprehensive application auditor that reads project context, asks what to audit, runs parallel audit agents, and produces a timestamped markdown report with severity ratings and fix estimates.
 argument-hint: "[all | quick | security | performance]"
 disable-model-invocation: true
 effort: high
 allowed-tools: Read, Grep, Glob, Bash, Agent, Write, WebSearch, AskUserQuestion
-user_invocable: true
-author: Emile du Toit
-license: "© 2026 DreamForge Software"
+user-invocable: true
 ---
 
 # Audit My App
