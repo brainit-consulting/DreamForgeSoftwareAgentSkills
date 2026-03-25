@@ -30,9 +30,18 @@ Comprehensive application auditor that reads your project context, asks what to 
 
 Download the skill as a single `.md` file into your project's `.claude/skills/` directory — Claude Code auto-discovers `*.md` files in this folder:
 
+**macOS / Linux / Git Bash:**
+
 ```bash
 mkdir -p .claude/skills
 curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude/skills/audit-my-app.md
+```
+
+**Windows (CMD / PowerShell):**
+
+```cmd
+mkdir .claude\skills
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude\skills\audit-my-app.md
 ```
 
 Restart Claude Code — the skill will appear as `/audit-my-app`.

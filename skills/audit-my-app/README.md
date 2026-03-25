@@ -22,9 +22,18 @@ This skill runs a full audit of your application. In plain English:
 
 Download the skill as a single `.md` file into your project's `.claude/skills/` directory:
 
+**macOS / Linux / Git Bash:**
+
 ```bash
 mkdir -p .claude/skills
 curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude/skills/audit-my-app.md
+```
+
+**Windows (CMD / PowerShell):**
+
+```cmd
+mkdir .claude\skills
+curl -sL https://raw.githubusercontent.com/brainit-consulting/DreamForgeSoftwareAgentSkills/main/skills/audit-my-app/AGENTS.md -o .claude\skills\audit-my-app.md
 ```
 
 Restart Claude Code — the skill will appear as `/audit-my-app`.
