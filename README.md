@@ -164,3 +164,7 @@ This skill includes 6 test cases in `skills/audit-my-app/evals/evals.json` compa
 ## License
 
 MIT
+
+## Support
+
+If this project helps you, you can support DreamForge Academy here: [Buy Me a Coffee](https://buymeacoffee.com/dreamforgeacademy).
