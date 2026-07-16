@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "organization": "DreamForge Software",
+  "author": "Emile du Toit",
+  "date": "July 2026",
+  "abstract": "Audit, plan, implement, and verify responsive web UI and UX using Apple Human Interface Guidelines adapted for the web, WCAG accessibility, and evidence-based browser testing.",
+  "homepage": "https://dreamforgesoftware.vercel.app/",
+  "references": [
+    "https://developer.apple.com/design/human-interface-guidelines/",
+    "https://www.w3.org/TR/WCAG22/",
+    "https://skills.sh"
+  ]
+}

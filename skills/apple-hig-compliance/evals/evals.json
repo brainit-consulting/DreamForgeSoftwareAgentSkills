@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "prompt": "Audit a responsive web app for Apple HIG-aligned mobile UX. At 320px the page has horizontal overflow, primary controls are 28x36px, a six-column data table clips, a modal cannot be dismissed from the keyboard, body text has 3.2:1 contrast, and the hero image is 2.4MB. Produce a prioritized remediation plan with verification steps.",
+    "assertions": [
+      "Identifies horizontal overflow and tests reflow at 320 CSS pixels without relying on device-specific breakpoints.",
+      "Recommends touch targets of at least 44 by 44 CSS pixels or an equivalent expanded hit area.",
+      "Proposes a mobile-safe table strategy that preserves access to every value and action.",
+      "Requires an accessible dialog pattern with focus management, Escape dismissal, and focus restoration.",
+      "Flags 3.2:1 body-text contrast as insufficient under WCAG AA and recommends token-level correction.",
+      "Treats the 2.4MB hero as a mobile performance risk and includes responsive image and measurement guidance."
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Plan mobile remediation for a desktop-first project dashboard. The sidebar stays permanently open, filters consume two rows, cards use hover-only actions, the viewport meta tag is missing, and bottom actions overlap the iPhone home indicator. Keep the product a web app rather than redesigning it as a native iOS app.",
+    "assertions": [
+      "Adapts Apple HIG principles to the web instead of prescribing SwiftUI, UIKit, or native-only navigation.",
+      "Recommends compact navigation with an operable menu and retained access to all destinations.",
+      "Consolidates or progressively discloses filters while preserving clear labels and state.",
+      "Replaces hover-only interactions with touch, keyboard, and visible-focus alternatives.",
+      "Requires a correct viewport meta declaration and avoids disabling user zoom.",
+      "Uses CSS safe-area environment variables for fixed bottom controls without assuming a specific iPhone model."
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "Review a mobile account-recovery flow. The form uses placeholder-only labels, requests email and a one-time code in separate views, auto-advances code inputs, reports errors only with red borders, and uses a 15-second toast after success. Provide findings and acceptance criteria.",
+    "assertions": [
+      "Requires persistent programmatic labels and appropriate autocomplete/input-purpose metadata.",
+      "Evaluates whether the multi-step flow preserves context, progress, and a clear way back without data loss.",
+      "Warns that forced auto-advance can disrupt editing, paste, assistive technology, and error recovery.",
+      "Requires errors to be conveyed with text and programmatic association rather than color alone.",
+      "Recommends a durable success state or user-controlled dismissal instead of relying only on a timed toast."
+    ]
+  }
+]
