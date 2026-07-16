@@ -24,6 +24,12 @@ Comprehensive application auditor that reads your project context, asks what to 
 - Claude Code Agent Teams support for enhanced parallel auditing
 - Vercel CLI, GitHub CLI, and git repo setup assistance
 
+### apple-hig-compliance
+
+Evidence-driven responsive web UI and UX auditing, planning, implementation, and verification using Apple Human Interface Guidelines adapted for the web, WCAG accessibility, and browser-native behavior.
+
+**Designed for web products** — covers compact navigation, touch targets, forms, dialogs, responsive tables, safe areas, zoom and reflow, mobile performance, accessibility trees, and real-device follow-up without imitating native iOS chrome.
+
 ## Install
 
 ### Option 1: Claude Code Plugin (Recommended)
@@ -59,6 +65,10 @@ Restart Claude Code — the skill will appear as `/audit-my-app`.
 
 ```bash
 npx skills add brainit-consulting/DreamForgeSoftwareAgentSkills --skill audit-my-app
+```
+
+```bash
+npx skills add brainit-consulting/DreamForgeSoftwareAgentSkills --skill apple-hig-compliance
 ```
 
 ## Usage
