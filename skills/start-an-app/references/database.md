@@ -96,7 +96,7 @@ vercel link --yes --scope <team-slug>
 vercel integration add neon --scope <team-slug>
 ```
 
-`vercel link` writes `.env.local` and gitignores it on its own. `integration add` provisions the database, connects it to all three environments and runs `env pull` for you — no terms prompt, no browser step, and it works non-interactively under an agent. It also drops `.agents/skills/neon`, `.claude/` and `skills-lock.json` into the project; harmless, but that is third-party agent instruction arriving uninvited, so mention it rather than letting the user find it in `git status`.
+`vercel link` writes `.env.local` and gitignores it on its own. `integration add` provisions the database, connects it to all three environments and runs `env pull` for you — no terms prompt, no browser step, and it works non-interactively under an agent. It also drops `.agents/skills/neon`, `.claude/` and `skills-lock.json` into the project. **Do not wave these through as harmless** — they are third-party *agent instructions* that arrived uninvited, they can carry scripts, and they will shape how this and every later agent behaves in the project. Tell the user they appeared, read the diff before anything loads them, and let the user decide whether they get committed.
 
 If the CLI flow has changed, do it in the Vercel dashboard instead: **Storage → Neon → Install**, then link it to this project.
 
@@ -137,7 +137,15 @@ Which branch each environment gets, for free, once this is set up:
 | Preview deployment | `preview/<git-branch>`, created per deployment |
 | Local development | `vercel-dev` |
 
-**Going to production:** nothing to do. The integration already sets the production variables, so deploying is a push. This is the reason A is the default.
+**Going to production: check, don't assume.** The integration sets *its own* variables — `POSTGRES_URL`, `PGHOST`, `PGUSER` and the rest — in all three environments, and that is the reason A is the default. But the app reads **`DATABASE_URL`**, and that one can end up scoped to development only: it is what the development-branch step above creates, and a project can reach a first deploy with no production `DATABASE_URL` at all. The app then starts against the integration's `PG*` fallbacks and fails on the first query, as described under the client above.
+
+One command settles it, and it costs nothing to run:
+
+```bash
+vercel env ls production
+```
+
+`references/deploy.md` covers the rest of what a first deploy needs. The short version: "the integration wired it up" is true of Neon and not necessarily true of your app.
 
 ---
 
@@ -178,11 +186,11 @@ Start it with `pnpm db:up` (see the scripts below). Docker Desktop must be runni
 Real Postgres binaries downloaded as an npm package and run as a local process. Use this when the user won't install Docker *and* wants to work offline with a genuine Postgres server.
 
 ```bash
-pnpm add -D embedded-postgres
-pnpm approve-builds
+CI=true pnpm add -D embedded-postgres
+pnpm approve-builds embedded-postgres
 ```
 
-`pnpm approve-builds` is required — the package installs binaries in a postinstall script, and pnpm blocks those by default. Without it the package installs but cannot start.
+Approving the build is required — the package installs binaries in a postinstall script, and pnpm blocks those by default, so without it the package installs but cannot start. **Name the package explicitly.** Bare `pnpm approve-builds` opens an interactive checklist, which under an agent has no TTY to answer it — the same no-TTY problem `CI=true` solves everywhere else in this file.
 
 `scripts/db-local.ts`:
 
@@ -287,9 +295,17 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import * as schema from "./schema";
 
+if (!process.env.DATABASE_URL) {
+  throw new Error(
+    "The database isn't connected yet: run `vercel env pull .env.local`."
+  );
+}
+
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 export const db = drizzle(pool, { schema });
 ```
+
+**The guard is not defensive decoration, and it is not optional.** `new Pool({ connectionString: undefined })` does not fail — `pg` falls back to libpq's `PGHOST`, `PGUSER`, `PGPASSWORD` and `PGDATABASE`, every one of which the Neon integration sets. So an app missing `DATABASE_URL` doesn't refuse to start; it quietly connects to *a* database, which is not the one the migrations ran on, and throws `relation "..." does not exist` on the first query instead. That sends the user reading their schema when the actual fault is a missing environment variable one layer away. The main skill file requires this behaviour under "the database is not optional, so it does not degrade" — this is where it gets built.
 
 **Use the plain `pg` driver, not a provider's serverless HTTP driver.** Vercel's default runtime is full Node.js and reuses warm instances, so a pooled `pg` connection is fine there; HTTP drivers, meanwhile, don't support interactive transactions, which the auth and payments steps rely on. One driver, every environment, transactions intact.
 
@@ -345,3 +361,4 @@ startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
 - Inserting and reading one row through `db` works (a quick script or the first page using a table is fine).
 - `pnpm db:studio` opens and shows the tables (optional, good demo for the user).
 - **Option A only:** `.env.local` contains both `DATABASE_URL` and `DATABASE_URL_UNPOOLED`, and the Neon dashboard shows the migration landed on the `vercel-dev` branch — not on `main`. If it landed on `main`, the development branch was never enabled; fix that before any real data exists.
+- **Option A only:** the host in `DATABASE_URL` is the same host as in `POSTGRES_URL`, in the same `.env.local`. Two different hosts means two different Neon projects — the app is reading one and the integration provisioned the other, so the migrations, the data and the deployment are not all in the same place. Compare them by eye; the endpoint id (`ep-...`) is the part that has to match.
