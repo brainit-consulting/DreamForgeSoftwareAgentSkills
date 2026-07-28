@@ -2,7 +2,7 @@
 
 A collection of AI agent skills by [DreamForge Software](https://dreamforgesoftware.vercel.app/). These skills extend Claude Code, OpenCode, Codex, Cursor, and other AI coding agents with specialized capabilities.
 
-> **New to this?** Start with the **[beginner's field manual](https://dreamforge-field-manual.vercel.app)** — installing an agent, what GitHub and Vercel are for, how to answer the interview well, and things worth building. No experience assumed. ([source](docs/index.html))
+> **New to this?** Start with the **[beginner's field manual](https://agenticbuilders.dreamforgeworld.com)** — installing an agent, what GitHub and Vercel are for, how to answer the interview well, and things worth building. No experience assumed. ([source](docs/index.html))
 
 ## Available Skills
 
