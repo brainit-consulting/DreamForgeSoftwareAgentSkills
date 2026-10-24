@@ -1,8 +1,13 @@
 <!doctype html>
+
 <html lang="en">
+
 <head>
+
 <meta charset="utf-8" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <title>BrainIT Field Guide — from idea to working app</title>
 <meta name="description" content="A free BrainIT Consulting field guide to building your first real app with an AI coding agent. No experience needed." />
 <meta property="og:type" content="website" />
@@ -14,431 +19,1268 @@
 <meta name="twitter:title" content="BrainIT Field Guide — from idea to working app" />
 <meta name="twitter:description" content="A free, plain-language guide to building your first real app with an AI coding agent. No experience needed." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
 <style>
+
   :root{
+
     --paper:#faf6f0;
+
     --paper-2:#fffdfa;
+
     --ink:#231f1a;
+
     --ink-soft:#4a423a;
+
     --muted:#867c72;
+
     --gold:#b8721f;
+
     --gold-bright:#e09036;
+
     --gold-wash:rgba(224,144,54,.10);
+
     --rule:#e6ddd1;
+
     --rule-strong:#d4c8b8;
+
     --cyan:#0e7490;
+
     --shadow:0 1px 2px rgba(35,31,26,.04), 0 8px 24px -12px rgba(35,31,26,.14);
+
     --display:"Cormorant Garamond", Georgia, serif;
+
     --body:"Outfit", ui-sans-serif, system-ui, sans-serif;
+
     --measure:68ch;
+
   }
+
   *{box-sizing:border-box}
+
   /* Root is 19px, not the 16px default: every rem in this stylesheet scales
+
      from here, so the whole page grows together rather than one piece at a time. */
+
   html{font-size:19px; scroll-behavior:smooth; scroll-padding-top:2rem}
+
   body{
+
     margin:0; background:var(--paper); color:var(--ink);
+
     font-family:var(--body); font-weight:400; font-size:1rem; line-height:1.65;
+
     -webkit-font-smoothing:antialiased;
+
   }
+
   /* paper grain */
+
   body::before{
+
     content:""; position:fixed; inset:0; pointer-events:none; z-index:1; opacity:.30;
+
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+
     mix-blend-mode:multiply;
+
   }
+
   .wrap{position:relative; z-index:2; max-width:1220px; margin:0 auto; padding:0 clamp(1rem,4vw,3rem)}
 
   /* ---------- masthead ---------- */
+
   header.masthead{padding:clamp(3rem,9vh,7rem) 0 clamp(2rem,5vh,4rem); border-bottom:1px solid var(--rule)}
+
   .eyebrow{
+
     font-size:.85rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gold);
+
     font-weight:500; margin:0 0 1.5rem;
+
   }
+
   h1{
+
     font-family:var(--display); font-weight:600; font-size:clamp(2.8rem,7.2vw,5rem);
+
     line-height:1.04; letter-spacing:-.02em; margin:0 0 1.25rem; max-width:26ch;
+
   }
+
   h1 em{font-style:italic; color:var(--gold)}
+
   .standfirst{font-size:clamp(1.05rem,2vw,1.28rem); color:var(--ink-soft); max-width:56ch; margin:0 0 2rem; font-weight:300}
+
   .facts{display:flex; flex-wrap:wrap; gap:0 1.75rem; list-style:none; padding:0; margin:0; font-size:.88rem; color:var(--muted)}
+
   /* nowrap per item: the row may wrap between facts on a narrow screen,
+
      but never mid-phrase */
+
   .facts li{padding:.35rem 0; white-space:nowrap}
+
   .facts b{color:var(--ink); font-weight:500}
 
   /* ---------- layout ---------- */
+
   .cols{display:grid; grid-template-columns:1fr; gap:3rem; padding:3rem 0 6rem}
+
   @media(min-width:1000px){ .cols{grid-template-columns:265px minmax(0,1fr); gap:4rem} }
 
   nav.toc{position:sticky; top:2rem; align-self:start; font-size:1rem; display:none}
-  @media(min-width:1000px){ nav.toc{display:block} }
+  @media(min-width:1000px){
+    #brainit-field-guide{
+      --godaddy-header-height:148px;
+      --godaddy-guide-height:clamp(620px, calc(100dvh - var(--godaddy-header-height)), 900px);
+      height:var(--godaddy-guide-height);
+      overflow-y:auto;
+      overscroll-behavior:contain;
+      scrollbar-gutter:stable;
+    }
+    nav.toc{display:block}
+    .cols > main{grid-column:2}
+    #brainit-field-guide nav.toc{
+      top:.75rem;
+      max-height:calc(var(--godaddy-guide-height) - 1.5rem);
+      overflow-y:auto;
+      overscroll-behavior:contain;
+      padding-right:.35rem;
+    }
+    #brainit-field-guide nav.toc a{
+      padding:.34rem .6rem .34rem 2.4rem;
+    }
+    #brainit-field-guide nav.toc a::before{
+      top:.48rem;
+    }
+  }
   nav.toc p{font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0 0 1rem}
+
   nav.toc ol{list-style:none; margin:0; padding:0; counter-reset:t}
+
   nav.toc li{counter-increment:t; margin:0 0 .1rem}
+
   nav.toc a{
+
     display:block; padding:.5rem .6rem .5rem 2.4rem; color:var(--muted); text-decoration:none;
+
     border-left:2px solid transparent; position:relative; transition:color .18s, border-color .18s, background .18s;
+
     border-radius:0 4px 4px 0;
+
   }
+
   nav.toc a::before{
+
     content:counter(t,decimal-leading-zero); position:absolute; left:.6rem; font-size:.86rem;
+
     /* --rule-strong is a hairline colour: legible as decoration, not as a number */
+
     color:var(--muted); font-variant-numeric:tabular-nums; top:.62rem;
+
   }
+
   nav.toc a:hover{color:var(--ink); background:var(--gold-wash)}
+
   nav.toc a.on{color:var(--gold); border-left-color:var(--gold-bright); font-weight:500}
+
   nav.toc a.on::before{color:var(--gold)}
 
   main{min-width:0}
+
   section{margin:0 0 clamp(4rem,9vh,7rem); scroll-margin-top:2rem}
+
   .stage{display:flex; align-items:baseline; gap:1rem; margin:0 0 1.5rem}
+
   .stage .num{
+
     font-family:var(--display); font-size:1.3rem; font-weight:700; color:var(--gold);
+
     width:2.3rem; height:2.3rem; flex:0 0 auto; border:1px solid var(--gold-bright); border-radius:50%;
+
     display:grid; place-items:center; background:var(--gold-wash);
+
   }
+
   h2{font-family:var(--display); font-weight:600; font-size:clamp(1.9rem,4vw,2.7rem); line-height:1.1; letter-spacing:-.015em; margin:0}
+
   h3{font-family:var(--body); font-weight:600; font-size:1.12rem; letter-spacing:-.005em; margin:2.4rem 0 .6rem}
+
   h4{font-family:var(--body); font-weight:600; font-size:1.02rem; margin:1.6rem 0 .4rem}
+
   p{max-width:var(--measure); margin:0 0 1.1rem}
+
   .lede{font-size:1.12rem; color:var(--ink-soft); font-weight:300; max-width:60ch}
+
   a{color:var(--gold); text-underline-offset:3px; text-decoration-thickness:1px}
+
   a:hover{color:var(--ink)}
+
   strong{font-weight:600}
+
   ul,ol{max-width:var(--measure); padding-left:1.2rem; margin:0 0 1.1rem}
+
   li{margin:0 0 .5rem}
+
   hr{border:0; border-top:1px solid var(--rule); margin:3rem 0}
 
   /* ---------- code ---------- */
+
   .code{
+
     position:relative; background:#2c261f; color:#f2eee9; border-radius:8px;
+
     padding:1rem 3.2rem 1rem 1.1rem; margin:0 0 1.1rem; max-width:var(--measure);
+
     font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.94rem; line-height:1.6;
+
     overflow-x:auto; box-shadow:var(--shadow);
+
   }
+
   .code .c{color:#a89f94}
+
   .code b{color:var(--gold-bright); font-weight:500}
+
   .copy{
+
     position:absolute; top:.55rem; right:.55rem; background:rgba(255,255,255,.07); color:#cfc7bd;
+
     border:1px solid rgba(255,255,255,.12); border-radius:5px; font:inherit; font-size:.8rem;
+
     padding:.25rem .5rem; cursor:pointer; transition:background .15s,color .15s;
+
   }
+
   .copy:hover{background:rgba(224,144,54,.22); color:#fff}
+
   .copy.done{color:#9ae6b4}
+
   code:not(.code code){
+
     background:rgba(184,114,31,.10); padding:.1em .35em; border-radius:3px;
+
     font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.87em;
+
   }
 
   /* ---------- callouts ---------- */
+
   .note{
+
     border-left:2px solid var(--gold-bright); background:var(--gold-wash);
+
     padding:1rem 1.2rem; margin:0 0 1.2rem; max-width:var(--measure); border-radius:0 6px 6px 0;
+
   }
+
   .note p:last-child{margin-bottom:0}
+
   .note .tag{
+
     display:block; font-size:.79rem; letter-spacing:.16em; text-transform:uppercase;
+
     color:var(--gold); font-weight:600; margin-bottom:.4rem;
+
   }
+
   .note.plain{border-left-color:var(--rule-strong); background:transparent; border-left-style:dashed}
+
   .note.plain .tag{color:var(--muted)}
 
   /* ---------- cards ---------- */
+
   .grid{display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); margin:0 0 1.2rem}
+
   .card{
+
     background:var(--paper-2); border:1px solid var(--rule); border-radius:10px; padding:1.3rem;
+
     box-shadow:var(--shadow); transition:transform .2s ease, box-shadow .2s ease, border-color .2s;
+
   }
+
   .card:hover{transform:translateY(-2px); border-color:var(--gold-bright); box-shadow:0 12px 30px -14px rgba(184,114,31,.4)}
+
   .card h4{margin:0 0 .35rem; font-size:1rem}
+
   .card p{font-size:.98rem; color:var(--ink-soft); margin:0}
+
   .card .say{
+
     display:block; margin-top:.7rem; padding-top:.7rem; border-top:1px dashed var(--rule-strong);
+
     font-family:var(--display); font-style:italic; font-size:1.02rem; color:var(--gold); line-height:1.4;
+
   }
 
   /* ---------- answers ---------- */
+
   .qa{border-top:1px solid var(--rule); padding:1.5rem 0 .4rem; max-width:var(--measure)}
+
   .qa .q{font-family:var(--display); font-size:1.35rem; font-weight:600; margin:0 0 1rem; line-height:1.25}
+
   .qa .q span{color:var(--gold); font-size:.88rem; font-family:var(--body); font-weight:600; letter-spacing:.1em; display:block; margin-bottom:.3rem}
+
   .ans{display:grid; gap:.7rem; margin-bottom:.9rem}
+
   @media(min-width:640px){ .ans{grid-template-columns:1fr 1fr} }
+
   .ans div{padding:.85rem 1rem; border-radius:7px; font-size:.99rem; line-height:1.58}
+
   .ans .weak{background:rgba(35,31,26,.04); color:var(--muted)}
+
   .ans .good{background:var(--paper-2); border:1px solid var(--gold-bright); color:var(--ink)}
+
   .ans .lbl{display:block; font-size:.76rem; letter-spacing:.15em; text-transform:uppercase; font-weight:600; margin-bottom:.35rem}
+
   .ans .weak .lbl{color:var(--muted)}
+
   .ans .good .lbl{color:var(--gold)}
+
   .why{font-size:.99rem; color:var(--ink-soft)}
+
   .why b{color:var(--ink)}
 
   /* ---------- figures ---------- */
+
   figure{margin:2rem 0; max-width:var(--measure)}
+
   figure svg{width:100%; height:auto; display:block}
+
   figcaption{color:var(--muted); margin-top:.7rem; font-style:italic; font-family:var(--display); font-size:1.1rem}
 
   .dash{stroke-dasharray:5 5; animation:march 22s linear infinite}
+
   @keyframes march{to{stroke-dashoffset:-200}}
+
   /* the world map is 312 wide (360° of longitude) and drawn twice, so
+
      translating by exactly one map width loops without a seam */
+
   .spin{animation:spin 48s linear infinite}
+
   @keyframes spin{to{transform:translateX(-312px)}}
 
   /* ---------- table ---------- */
+
   table{border-collapse:collapse; width:100%; max-width:var(--measure); font-size:.99rem; margin:0 0 1.2rem}
+
   th,td{text-align:left; padding:.65rem .7rem; border-bottom:1px solid var(--rule); vertical-align:top}
+
   th{font-weight:600; font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
 
   /* ---------- steps ---------- */
+
   ol.steps{list-style:none; padding:0; counter-reset:s; max-width:var(--measure)}
+
   ol.steps>li{counter-increment:s; position:relative; padding-left:2.6rem; margin-bottom:1.4rem}
+
   ol.steps>li::before{
+
     content:counter(s); position:absolute; left:0; top:-.05rem; width:1.75rem; height:1.75rem;
+
     border-radius:50%; background:var(--ink); color:var(--paper); display:grid; place-items:center;
+
     font-size:.88rem; font-weight:500;
+
   }
+
   ol.steps>li>b{display:block; margin-bottom:.15rem}
 
   /* ---------- footer ---------- */
+
   footer{border-top:1px solid var(--rule); padding:2.6rem 0 3rem; font-size:.84rem; color:var(--muted); line-height:1.6}
+
   /* full width, not the 68ch reading measure — these are one-line credits,
+
      not prose, and the measure was forcing each onto two lines */
+
   footer p{max-width:none; margin:0 0 .45rem}
+
   /* closing ornament: hairline — diamonds — hairline */
+
   .end{display:flex; align-items:center; gap:1.1rem; margin-top:2.4rem}
+
   .end::before,.end::after{
+
     content:""; flex:1; height:1px;
+
     background:linear-gradient(to right,transparent,var(--rule-strong),transparent);
+
   }
+
   .end i{font-style:normal; color:var(--gold-bright); font-size:.62rem; letter-spacing:.85em; padding-left:.85em}
 
   /* ---------- motion ---------- */
+
   .rise{opacity:0; transform:translateY(14px)}
+
   .rise.in{opacity:1; transform:none; transition:opacity .6s cubic-bezier(.2,.7,.3,1), transform .6s cubic-bezier(.2,.7,.3,1)}
+
   header.masthead .rise{animation:up .8s cubic-bezier(.2,.7,.3,1) forwards; opacity:0}
+
   header.masthead .rise:nth-child(1){animation-delay:.05s}
+
   header.masthead .rise:nth-child(2){animation-delay:.15s}
+
   header.masthead .rise:nth-child(3){animation-delay:.25s}
+
   header.masthead .rise:nth-child(4){animation-delay:.35s}
+
   @keyframes up{to{opacity:1; transform:none}}
+
   @media(prefers-reduced-motion:reduce){
+
     *{animation:none !important; transition:none !important}
+
     .rise{opacity:1 !important; transform:none !important}
+
     html{scroll-behavior:auto}
+
   }
+
   @media print{
+
     body::before{display:none} nav.toc{display:none} .copy{display:none}
+
     .code{background:#f2eee9; color:#231f1a; box-shadow:none; border:1px solid #ccc}
+
     .card:hover{transform:none}
+
   }
+
+</style>
+  <!-- BRAINIT_PROJECTOR_READABILITY_STYLE_START -->
+  <style data-brainit-projector-readability>
+/* BrainIT presentation readability layer.
+   The companion runtime sets --brainit-readable-floor from the guide zoom. */
+#brainit-field-guide {
+  --brainit-readable-floor: 16px;
+}
+
+#brainit-field-guide .brainit-projector-controls {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: none;
+  min-height: 58px;
+  padding: 7px clamp(10px, 2vw, 22px);
+  border: 0;
+  border-bottom: 1px solid rgba(20, 40, 32, .18);
+  border-radius: 0;
+  overflow: visible;
+  background: rgba(250, 246, 240, .97);
+  color: #142820;
+  box-shadow: 0 5px 16px rgba(20, 40, 32, .08);
+  backdrop-filter: blur(8px);
+}
+
+#brainit-field-guide .brainit-projector-controls button,
+#brainit-field-guide .brainit-projector-controls output {
+  display: grid;
+  place-items: center;
+  min-width: 48px;
+  min-height: 44px;
+  margin: 0;
+  padding: 7px 11px;
+  border-block: 1px solid rgba(20, 40, 32, .28);
+  border-radius: 0;
+  background: #fffdf8;
+  color: inherit;
+  font: 700 16px/1.1 system-ui, sans-serif;
+}
+
+#brainit-field-guide .brainit-projector-controls output {
+  min-width: 62px;
+  border-inline: 1px solid rgba(20, 40, 32, .18);
+  font-variant-numeric: tabular-nums;
+}
+
+#brainit-field-guide .brainit-projector-controls button:first-child {
+  border-left: 1px solid rgba(20, 40, 32, .28);
+  border-radius: 9px 0 0 9px;
+}
+
+#brainit-field-guide .brainit-projector-controls button:last-child {
+  border-right: 1px solid rgba(20, 40, 32, .28);
+  border-radius: 0 9px 9px 0;
+}
+
+#brainit-field-guide .brainit-projector-controls button { cursor: pointer; }
+
+#brainit-field-guide .brainit-projector-controls button:hover,
+#brainit-field-guide .brainit-projector-controls button:focus-visible {
+  background: #dbe9e2;
+}
+
+#brainit-field-guide .projector-diagram-fallback { display: none; }
+
+#brainit-field-guide.brainit-projector-zoom figure:has(> .projector-diagram-fallback) > svg {
+  display: none !important;
+}
+
+#brainit-field-guide.brainit-projector-zoom .projector-diagram-fallback {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  width: 100%;
+  margin: 0;
+}
+
+#brainit-field-guide .projector-diagram-card {
+  min-width: 0;
+  min-height: 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(184, 114, 31, .45);
+  border-top: 5px solid #b8721f;
+  border-radius: 10px;
+  background: #fffdfa;
+  color: #231f1a;
+  overflow-wrap: anywhere;
+}
+
+#brainit-field-guide .projector-diagram-card strong,
+#brainit-field-guide .projector-diagram-card span {
+  display: block;
+}
+
+#brainit-field-guide .projector-diagram-card span {
+  margin-top: .35rem;
+  color: #5d554c;
+}
+
+#brainit-field-guide .projector-diagram-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: .8rem 1rem;
+  border-left: 4px solid #e09036;
+  background: rgba(224, 144, 54, .10);
+  color: #4a423a;
+  font-style: italic;
+}
+
+#brainit-field-guide :is(
+  .toc a::before,
+  .mobile-toc a::before,
+  .step-list > div::before,
+  .receipt::before,
+  .status-pass::before
+) {
+  font-size: var(--brainit-readable-floor) !important;
+}
+
+#brainit-field-guide .zoom button,
+#brainit-field-guide .zoom output {
+  width: auto;
+  min-width: 3.25em;
+  height: auto;
+  min-height: 44px;
+  padding: .4em .55em;
+}
+
+#brainit-field-guide :is(.mono, td, th, dt, dd, .card, .panel, .case, .test-card, .voice-case, .method-card) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+#brainit-field-guide :is(select, input, textarea) {
+  max-width: 100%;
+  min-width: 0;
+}
+
+#brainit-field-guide :is(.path, .data-flow, .triage, .comparison, .issue-list) {
+  max-width: 100%;
+  min-width: 0;
+}
+
+#brainit-field-guide :is(.path strong, .issue-list li) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+#brainit-field-guide :is(table, pre, .command, .code) {
+  max-width: 100%;
+}
+
+#brainit-field-guide :is(pre, .command, .code) {
+  overflow-x: auto;
+}
+
+#brainit-field-guide.brainit-projector-zoom {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+#brainit-field-guide.brainit-projector-zoom :is(nav.toc, .sidebar) {
+  display: none !important;
+}
+
+#brainit-field-guide.brainit-projector-zoom :is(.cols, .guide-layout) {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+#brainit-field-guide.brainit-projector-zoom :is(.cols, .guide-layout) > main {
+  grid-column: 1 !important;
+  min-width: 0;
+}
+
+#brainit-field-guide.brainit-projector-zoom .rise {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+#brainit-field-guide.brainit-projector-zoom .mobile-toc {
+  display: block !important;
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  background: #f3eee5;
+  border-bottom: 1px solid rgba(20, 40, 32, .18);
+}
+
+#brainit-field-guide.brainit-projector-zoom .mobile-toc summary {
+  display: flex;
+  justify-content: space-between;
+  padding: 11px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+#brainit-field-guide.brainit-projector-zoom .mobile-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+  max-height: 46vh;
+  overflow: auto;
+  padding: 0 12px 12px;
+}
+
+#brainit-field-guide.brainit-projector-zoom .mobile-links a {
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(20, 40, 32, .18);
+  border-radius: 7px;
+  background: #fff;
+  color: #0f4f40;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+#brainit-field-guide.brainit-projector-zoom .mobile-links a.active {
+  background: #0f4f40;
+  color: #fff;
+}
+
+#brainit-field-guide.brainit-projector-zoom .topbar {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#brainit-field-guide.brainit-projector-zoom .topbar-title {
+  flex: 1 1 18rem;
+  max-width: none;
+  min-width: 0;
+}
+
+#brainit-field-guide.brainit-projector-zoom .tools {
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+#brainit-field-guide.brainit-projector-zoom :is(
+  .model-flow,
+  .not-grid,
+  .risk-list,
+  .map-grid,
+  .time-river,
+  .compass,
+  .exercise-grid,
+  .series-path,
+  .case-grid,
+  .anatomy,
+  .connection,
+  .test-grid,
+  .ladder-simple,
+  .voice-values,
+  .voice-path,
+  .release-flow,
+  .method-grid,
+  .local-flow,
+  .tool-stack,
+  .inspection,
+  .voice-cases,
+  .data-flow,
+  .legend,
+  .step-list,
+  .boundary,
+  .triage,
+  .decision-row,
+  .check-grid,
+  .pilot-cases
+) {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+#brainit-field-guide.brainit-projector-zoom :is(
+  .model-flow,
+  .time-river,
+  .path,
+  .anatomy,
+  .connection,
+  .ladder-simple,
+  .voice-path,
+  .release-flow,
+  .data-flow
+) > *::before,
+#brainit-field-guide.brainit-projector-zoom :is(
+  .model-flow,
+  .time-river,
+  .path,
+  .anatomy,
+  .connection,
+  .ladder-simple,
+  .voice-path,
+  .release-flow,
+  .data-flow
+) > *::after {
+  display: none !important;
+}
+
+#brainit-field-guide.brainit-projector-zoom :is(
+  .map-grid,
+  .exercise-grid,
+  .series-path,
+  .compass,
+  .voice-values,
+  .method-grid,
+  .inspection,
+  .test-grid,
+  .tool-stack,
+  .case-grid,
+  .voice-cases
+) > * {
+  min-height: 0 !important;
+}
+
+#brainit-field-guide.brainit-projector-zoom :is(
+  .model-flow,
+  .not-grid,
+  .risk-list,
+  .map-grid,
+  .time-river,
+  .compass,
+  .exercise-grid,
+  .series-path,
+  .case-grid,
+  .anatomy,
+  .connection,
+  .test-grid,
+  .ladder-simple,
+  .voice-values,
+  .voice-path,
+  .release-flow,
+  .method-grid,
+  .local-flow,
+  .tool-stack,
+  .inspection,
+  .voice-cases,
+  .data-flow,
+  .legend,
+  .step-list,
+  .boundary,
+  .triage,
+  .decision-row,
+  .check-grid,
+  .pilot-cases
+) > * {
+  min-width: 0 !important;
+  overflow-wrap: anywhere;
+}
+
+#brainit-field-guide.brainit-projector-zoom :is(.receipt dl, dl.receipt) {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+@media (max-width: 720px) {
+  #brainit-field-guide {
+    --brainit-readable-floor: 16px;
+  }
+
+  #brainit-field-guide.brainit-projector-zoom :is(
+    .model-flow,
+    .not-grid,
+    .risk-list,
+    .map-grid,
+    .time-river,
+    .compass,
+    .exercise-grid,
+    .series-path,
+    .case-grid,
+    .anatomy,
+    .connection,
+    .test-grid,
+    .ladder-simple,
+    .voice-values,
+    .voice-path,
+    .release-flow,
+    .method-grid,
+    .local-flow,
+    .tool-stack,
+    .inspection,
+    .voice-cases,
+    .data-flow,
+    .legend,
+    .step-list,
+    .boundary,
+    .triage,
+    .decision-row,
+    .check-grid,
+    .pilot-cases
+  ) {
+    grid-template-columns: 1fr !important;
+  }
+
+  #brainit-field-guide.brainit-projector-zoom .projector-diagram-fallback {
+    grid-template-columns: 1fr;
+  }
+
+  #brainit-field-guide.brainit-projector-zoom .topbar-title,
+  #brainit-field-guide.brainit-projector-zoom .tools {
+    flex-basis: 100%;
+  }
+
+  #brainit-field-guide.brainit-projector-zoom .tools {
+    justify-content: space-between;
+  }
+
+  #brainit-field-guide.brainit-projector-zoom .mobile-links {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  #brainit-field-guide {
+    --brainit-readable-floor: 10.5pt;
+  }
+}
+  </style>
+  <!-- BRAINIT_PROJECTOR_READABILITY_STYLE_END -->
+<style id="brainit-forest-edition">
+#brainit-field-guide{--godaddy-header-height:0px;--godaddy-guide-height:100dvh;height:100dvh}
+/* BrainIT cream, forest and brass edition — 24 October 2026. */
+:root{--paper:#f5f2e9;--paper-2:#fffef9;--ink:#233b32;--ink-soft:#43594c;--muted:#626c62;--gold:#386348;--gold-bright:#d8b269;--gold-wash:#e8eddf;--rule:#d8ddd0;--rule-strong:#aab8a5;--measure:100%;--shadow:0 2px 0 #d8ddd0,0 12px 28px -16px #233b3255}
+body{background:radial-gradient(ellipse at 90% 0,#d8b26926,transparent 40%),var(--paper)}
+body::before{opacity:.10}
+#brainit-field-guide.wrap,.wrap{width:100%;max-width:none;padding-inline:clamp(18px,3vw,64px)}
+header.masthead{position:relative;margin-top:2rem;padding:clamp(30px,4vw,70px);border:1px solid #55735e;border-radius:20px;background:radial-gradient(ellipse at top right,#587750 0,transparent 65%),linear-gradient(125deg,#172f25,#244f3e);box-shadow:0 8px 0 #14291f,0 25px 45px -18px #16332677,inset 0 1px #ffffff30;color:#fffef9}
+header.masthead h1{max-width:none;font-size:clamp(2.8rem,5.6vw,5.6rem);text-shadow:0 3px 0 #10251d}
+header.masthead h1 em{color:#e3c187}
+header.masthead .eyebrow{color:#e3c187}
+header.masthead .standfirst{max-width:none;color:#e4ecdf;font-weight:400}
+header.masthead .facts{max-width:none;color:#d0dfce;gap:10px 32px}
+header.masthead .facts b{color:#fffef9}
+.cols{gap:clamp(24px,3vw,60px)}
+@media(min-width:1000px){.cols{grid-template-columns:245px minmax(0,1fr)}}
+nav.toc{padding:22px 12px;background:#e8eddf;border:1px solid var(--rule-strong);border-radius:14px;box-shadow:0 5px 0 #cbd3bf,0 18px 32px -23px #233b3266;max-height:90vh;overflow:auto}
+nav.toc a{color:#43594c}nav.toc a.on{background:#244f3e;color:#fffef9;border-color:#d8b269}nav.toc a.on::before{color:#e3c187}
+main section{padding:clamp(20px,2.2vw,40px);background:#fffef9;border:1px solid #d8ddd0;border-radius:16px;box-shadow:0 4px 0 #dce1d2,0 20px 38px -27px #233b3266;margin-bottom:3rem}
+p,.lede,.note,.qa,.code,table,ol.steps,ul,ol{max-width:none}
+.lede{font-weight:400}.stage{align-items:center}.stage .num{background:#244f3e;color:#e3c187;box-shadow:0 3px 0 #122a20;border-color:#446b50}
+.grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:22px}
+.card{border-radius:12px;box-shadow:0 4px 0 #d8ddd0,0 13px 25px -18px #233b3266;background:linear-gradient(145deg,#fffef9,#eef1e8)}
+.card:hover{transform:perspective(1200px) translateY(-4px) rotateX(1deg);box-shadow:0 7px 0 #ced7c5,0 22px 34px -20px #244f3e77;border-color:#79916c}
+.code{background:linear-gradient(130deg,#172f25,#244f3e);border:1px solid #55735e;box-shadow:0 5px 0 #12291e,0 16px 24px -18px #233b3299;color:#fffef9}
+.copy{color:#e3c187;border-color:#70876d;background:#ffffff0d}
+.note{border-left:4px solid #d8b269;box-shadow:inset 0 1px #fff,0 2px 0 #d8ddd0}
+figure{max-width:100%;padding:20px;background:#f5f2e9;border:1px solid #d8ddd0;border-radius:12px}figure svg{max-height:520px;filter:drop-shadow(0 7px 4px #233b3215)}
+.ans{grid-template-columns:minmax(0,1fr) minmax(0,1.65fr)}
+.ans .good{border-color:#8ca27d;box-shadow:0 3px 0 #d8ddd0}.ans .weak{color:#596557}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #a17b35;outline-offset:4px}
+@media(max-width:700px){header.masthead{margin-top:1rem;padding:24px 20px}.ans{grid-template-columns:1fr}.stage{gap:12px}main section{padding:20px 16px}figure{padding:8px}.facts li{white-space:normal}h2{overflow-wrap:normal}.code{overflow-x:auto}}
+@media(prefers-reduced-motion:reduce){.card:hover{transform:none}}
+@media print{header.masthead{background:white;color:#233b32;box-shadow:none}header.masthead :is(h1,.standfirst,.eyebrow,.facts,.facts b){color:#233b32;text-shadow:none}main section,.card,nav.toc{box-shadow:none}}
 </style>
 </head>
+
 <body>
-<div class="wrap">
+
+<div class="wrap" id="brainit-field-guide">
 
 <header class="masthead">
+
   <p class="eyebrow rise">BrainIT Consulting · Free Field Guide No. 1</p>
   <h1 class="rise">From an idea to a <em>working app</em></h1>
+
   <p class="standfirst rise">You don't need to know how to code. You need to know how to describe your own business — which you already do. This guide takes you from an empty computer to an app you can actually use.</p>
+
   <ul class="facts rise">
+
     <li><b>90 minutes</b> start to finish</li>
+
     <li><b>Free</b> — every tool here</li>
+
     <li><b>No experience</b> needed</li>
+
   </ul>
+
 </header>
 
 <div class="cols">
 
 <nav class="toc" aria-label="Contents">
+
   <p>Contents</p>
+
   <ol>
+
     <li><a href="#what">What an agent is</a></li>
+
     <li><a href="#loop">The agentic loop</a></li>
+
     <li><a href="#install">Install your agent</a></li>
+
     <li><a href="#accounts">Two free accounts</a></li>
+
     <li><a href="#skill">Install BrainIT skills</a></li>
     <li><a href="#first">Your first app</a></li>
+
     <li><a href="#answers">Answering well</a></li>
+
     <li><a href="#ideas">Things to build</a></li>
+
     <li><a href="#after">What happens after</a></li>
+
     <li><a href="#wrong">When it goes wrong</a></li>
+
     <li><a href="#help">Getting help</a></li>
+
   </ol>
+
 </nav>
 
 <main>
 
 <!-- 1 -->
+
 <section id="what" class="rise">
+
   <div class="stage"><span class="num">1</span><h2>What an AI coding agent actually is</h2></div>
+
   <p class="lede">It is not a chatbot that writes code for you to paste somewhere. It is a program that sits on your computer, with permission to open your files, change them, and run things — while you watch.</p>
+
   <p>The difference matters. A chatbot gives you a wall of code and leaves you to work out where it goes. An agent opens the folder, creates the files, installs what's needed, starts the app, looks at the result in a browser, notices the button is broken, and fixes it. You supervise; it does the typing.</p>
+
   <p>That's why you don't need to code. You need to be able to say what's wrong — <em>"the times are showing four hours early"</em> — which is a thing any owner can see.</p>
+
   <div class="note plain">
+
     <span class="tag">In plain words</span>
+
     <p>Think of it as a very fast junior who has read every manual, never gets bored, and will happily redo something eleven times — but who has never met your customers and needs you to explain the business.</p>
+
   </div>
+
 </section>
 
 <!-- 2 -->
+
 <section id="loop" class="rise">
+
   <div class="stage"><span class="num">2</span><h2>The agentic loop</h2></div>
+
   <p class="lede">Everything that follows makes more sense once you've seen the loop the agent runs in.</p>
+
   <figure>
+
     <svg viewBox="0 0 640 300" role="img" aria-label="A circular loop: you describe, the agent plans, acts, then checks its own work, then returns to you.">
+
       <defs>
+
         <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+
           <path d="M0,0 L9,4.5 L0,9 z" fill="#b8721f"/>
+
         </marker>
+
         <clipPath id="globeClip"><circle cx="320" cy="150" r="78"/></clipPath>
+
         <!-- light from the upper left, so the sphere reads as lit rather than flat -->
+
         <radialGradient id="ocean" cx="34%" cy="28%" r="78%">
+
           <stop offset="0%" stop-color="#7cc9ef"/>
+
           <stop offset="48%" stop-color="#2f86c2"/>
+
           <stop offset="100%" stop-color="#14507c"/>
+
         </radialGradient>
+
         <radialGradient id="terminator" cx="34%" cy="28%" r="80%">
+
           <stop offset="55%" stop-color="#062338" stop-opacity="0"/>
+
           <stop offset="100%" stop-color="#062338" stop-opacity=".62"/>
+
         </radialGradient>
+
         <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+
           <stop offset="72%" stop-color="#7cc9ef" stop-opacity="0"/>
+
           <stop offset="90%" stop-color="#7cc9ef" stop-opacity=".28"/>
+
           <stop offset="100%" stop-color="#7cc9ef" stop-opacity="0"/>
+
         </radialGradient>
+
       </defs>
+
       <!-- the world the agent works on: painted first, so the orbit and the
+
            four nodes sit in front of it -->
+
       <g>
+
         <circle cx="320" cy="150" r="94" fill="url(#halo)"/>
+
         <circle cx="320" cy="150" r="78" fill="url(#ocean)"/>
+
         <!-- NASA Blue Marble, equirectangular, public domain. Drawn at
+
              312 x 156 = 360° x 180°, twice and one map-width apart, so
+
              translating by 312 loops with no visible seam. Same file both
+
              times, so the browser fetches it once. -->
+
         <g clip-path="url(#globeClip)">
+
           <g class="spin">
-            <image href="earth.jpg" x="242" y="72" width="312" height="156" preserveAspectRatio="none"/>
-            <image href="earth.jpg" x="554" y="72" width="312" height="156" preserveAspectRatio="none"/>
+
+            <image href="https://agenticbuilders.dreamforgeworld.com/earth.jpg" x="242" y="72" width="312" height="156" preserveAspectRatio="none"/>
+            <image href="https://agenticbuilders.dreamforgeworld.com/earth.jpg" x="554" y="72" width="312" height="156" preserveAspectRatio="none"/>
           </g>
+
         </g>
+
         <circle cx="320" cy="150" r="78" fill="url(#terminator)"/>
+
         <circle cx="320" cy="150" r="78" fill="none" stroke="#14507c" stroke-width=".9" opacity=".45"/>
+
       </g>
+
       <ellipse cx="320" cy="150" rx="230" ry="104" fill="none" stroke="#e09036" stroke-width="1.4" class="dash" opacity=".85" marker-end="url(#ar)"/>
 
       <g font-family="Outfit,sans-serif">
+
         <g>
+
           <circle cx="90" cy="150" r="42" fill="#fffdfa" stroke="#b8721f" stroke-width="1.5"/>
+
           <text x="90" y="146" text-anchor="middle" font-size="14" font-weight="600" fill="#231f1a">You</text>
+
           <text x="90" y="163" text-anchor="middle" font-size="10.5" fill="#867c72">describe it</text>
+
         </g>
+
         <g>
+
           <circle cx="320" cy="46" r="42" fill="#fffdfa" stroke="#d4c8b8" stroke-width="1.2"/>
+
           <text x="320" y="42" text-anchor="middle" font-size="13" font-weight="600" fill="#231f1a">Plans</text>
+
           <text x="320" y="59" text-anchor="middle" font-size="10.5" fill="#867c72">reads, decides</text>
+
         </g>
+
         <g>
+
           <circle cx="550" cy="150" r="42" fill="#fffdfa" stroke="#d4c8b8" stroke-width="1.2"/>
+
           <text x="550" y="146" text-anchor="middle" font-size="13" font-weight="600" fill="#231f1a">Acts</text>
+
           <text x="550" y="163" text-anchor="middle" font-size="10.5" fill="#867c72">writes, runs</text>
+
         </g>
+
         <g>
+
           <circle cx="320" cy="254" r="42" fill="#fffdfa" stroke="#d4c8b8" stroke-width="1.2"/>
+
           <text x="320" y="250" text-anchor="middle" font-size="13" font-weight="600" fill="#231f1a">Checks</text>
+
           <text x="320" y="267" text-anchor="middle" font-size="10.5" fill="#867c72">did it work?</text>
+
         </g>
+
       </g>
+
     </svg>
+    <div class="projector-diagram-fallback" role="group" aria-label="The agentic loop in large-text form">
+      <div class="projector-diagram-card"><strong>1. You describe it</strong><span>Explain the business need or what looks wrong.</span></div>
+      <div class="projector-diagram-card"><strong>2. The agent plans</strong><span>It reads the approved context and decides what to try.</span></div>
+      <div class="projector-diagram-card"><strong>3. The agent acts</strong><span>It writes or runs the work it is allowed to perform.</span></div>
+      <div class="projector-diagram-card"><strong>4. The agent checks</strong><span>It examines the result and asks: did it work?</span></div>
+      <p class="projector-diagram-note">The loop continues until the job is done or the agent needs an answer only you can provide.</p>
+    </div>
     <figcaption>Round and round until the job is done — or until it needs an answer only you have.</figcaption>
   </figure>
+
   <p>Two things follow from this, and they're the whole skill of working with an agent:</p>
+
   <ul>
+
     <li><strong>Say what's wrong, not how to fix it.</strong> "The owner's phone number should be on the card" beats trying to describe code you can't see.</li>
+
     <li><strong>Let it finish the loop.</strong> It will often write something, run it, find its own mistake and correct it. Interrupting at the first sign of activity is like grabbing the wheel.</li>
+
   </ul>
+
   <div class="note">
+
     <span class="tag">Watch out</span>
+
     <p>The agent asks before anything that costs money, publishes something, or creates an account. If you ever see it about to do one of those unasked, stop it — that's not how this skill is meant to behave.</p>
+
   </div>
+
 </section>
 
 <!-- 3 -->
+
 <section id="install" class="rise">
+
   <div class="stage"><span class="num">3</span><h2>Install your agent</h2></div>
+
   <p class="lede">Two good options. Either works with this skill. If you've no strong feeling, take Claude Code.</p>
 
   <h3>First: Node.js (both need it)</h3>
-  <p>Node.js is the engine these tools run on. Go to <a href="https://nodejs.org">nodejs.org</a>, download the version marked <strong>LTS</strong>, and click through the installer. Nothing to configure.</p>
+
+<p>Node.js is the engine these tools run on. Go to <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">nodejs.org</a>, download the version marked <strong>LTS</strong>, and click through the installer. Nothing to configure.</p>
   <p>To check it worked, open a terminal — <em>Terminal</em> on a Mac, <em>PowerShell</em> on Windows — and type:</p>
+
   <div class="code"><button class="copy">copy</button>node --version</div>
+
   <p>A number like <code>v22.11.0</code> means you're set. An error means the install didn't take; run it again.</p>
 
   <h3>Claude Code</h3>
-  <p>There's a desktop app for Mac and Windows at <a href="https://claude.com/claude-code">claude.com/claude-code</a> — download, sign in, done. If you'd rather work in a terminal:</p>
+
+<p>There's a desktop app for Mac and Windows at <a href="https://claude.com/claude-code" target="_blank" rel="noopener noreferrer">claude.com/claude-code</a> — download, sign in, done. If you'd rather work in a terminal:</p>
   <div class="code"><button class="copy">copy</button>npm install -g @anthropic-ai/claude-code</div>
+
   <p>Then start it inside whatever folder you want to work in:</p>
+
   <div class="code"><button class="copy">copy</button>claude</div>
 
   <h3>Codex</h3>
+
   <p>OpenAI's equivalent. Same idea, same skill works:</p>
+
   <div class="code"><button class="copy">copy</button>npm install -g @openai/codex</div>
+
   <div class="code"><button class="copy">copy</button>codex</div>
 
   <div class="note plain">
+
     <span class="tag">If a command has changed</span>
+
     <p>These tools move quickly and install commands do occasionally change. The official pages are always right; this page might be a month behind. If a command errors, check the vendor's install page before assuming you've done something wrong.</p>
+
   </div>
+
 </section>
 
 <!-- 4 -->
+
 <section id="accounts" class="rise">
+
   <div class="stage"><span class="num">4</span><h2>Two free accounts worth having</h2></div>
+
   <p class="lede">Neither is required to start. Both make what you build considerably more useful, and both are free for what you'll be doing.</p>
 
   <div class="grid">
+
     <div class="card">
+
       <h4>GitHub</h4>
+
       <p>A safe copy of your work, with a full history of every change. Like version history in Google Docs, but for your whole project — including the ability to go back to how it was on Tuesday.</p>
+
       <span class="say">"Put this on GitHub for me — private."</span>
+
     </div>
+
     <div class="card">
+
       <h4>Vercel</h4>
+
       <p>Where your app lives when you want it online, and where its database comes from. The free "Hobby" plan covers a small business app comfortably.</p>
+
       <span class="say">"Put it online so I can see it on my phone."</span>
+
     </div>
+
   </div>
 
-  <p>Sign up at <a href="https://github.com">github.com</a> and <a href="https://vercel.com">vercel.com</a>. You do this part yourself — an agent should never create an account or enter a password on your behalf, and this one won't.</p>
+<p>Sign up at <a href="https://github.com" target="_blank" rel="noopener noreferrer">github.com</a> and <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">vercel.com</a>. You do this part yourself — an agent should never create an account or enter a password on your behalf, and this one won't.</p>
 
   <h3>Why the database matters more than it sounds</h3>
+
   <p>Your app needs somewhere to keep its information — the bookings, the customers, the notes. With a Vercel account, the skill sets up a free one and does something worth understanding:</p>
+
   <figure>
+
     <svg viewBox="0 0 640 220" role="img" aria-label="A trunk labelled the real database splits into a branch labelled your copy for building.">
+
       <g font-family="Outfit,sans-serif">
+
         <rect x="40" y="40" width="230" height="62" rx="9" fill="#fffdfa" stroke="#b8721f" stroke-width="1.5"/>
+
         <text x="155" y="66" text-anchor="middle" font-size="14" font-weight="600" fill="#231f1a">The real database</text>
+
         <text x="155" y="86" text-anchor="middle" font-size="11" fill="#867c72">what your customers touch</text>
 
         <path d="M270 71 C 340 71, 340 160, 400 160" fill="none" stroke="#e09036" stroke-width="1.6" class="dash"/>
 
         <rect x="400" y="128" width="205" height="62" rx="9" fill="#fffdfa" stroke="#d4c8b8" stroke-width="1.2"/>
+
         <text x="502" y="154" text-anchor="middle" font-size="14" font-weight="600" fill="#231f1a">Your copy</text>
+
         <text x="502" y="174" text-anchor="middle" font-size="11" fill="#867c72">for building and breaking</text>
 
         <text x="335" y="112" text-anchor="middle" font-size="11" fill="#b8721f" font-style="italic">copied in a second</text>
+
       </g>
+
     </svg>
+    <div class="projector-diagram-fallback" role="group" aria-label="Safe database copy in large-text form">
+      <div class="projector-diagram-card"><strong>The real database</strong><span>The information your customers and live business use.</span></div>
+      <div class="projector-diagram-card"><strong>Your safe copy</strong><span>A separate copy for building, testing, and learning.</span></div>
+      <p class="projector-diagram-note">The copy is created separately, so learning work cannot damage the live database.</p>
+    </div>
     <figcaption>You get your own copy to build against. Nothing you do while learning can damage the real thing.</figcaption>
   </figure>
+
   <p>Without a Vercel account it still works — the database just runs on your own machine instead. You're never blocked, you simply get less.</p>
+
 </section>
 
 <!-- 5 -->
+
 <section id="skill" class="rise">
+
   <div class="stage"><span class="num">5</span><h2>Install the BrainIT skills</h2></div>
   <p class="lede">A "skill" is a set of instructions your agent reads before it starts, so it knows how to do a particular job properly. BrainIT's <strong>start-an-app</strong> skill knows how to guide you from an idea to a working app.</p>
   <div class="code"><button class="copy">copy</button>npx skills add brainit-consulting/skills --skill start-an-app</div>
@@ -448,314 +1290,668 @@
 </section>
 
 <!-- 6 -->
+
 <section id="first" class="rise">
+
   <div class="stage"><span class="num">6</span><h2>Building your first app</h2></div>
 
   <h3>The one rule that matters</h3>
+
   <p><strong>Open an empty folder.</strong> The app is created wherever you start the agent — the folder you open is the folder it lands in. There's no "where shall I put this?" question, because an agent can't reliably write outside where it started.</p>
+
   <figure>
+
     <svg viewBox="0 0 640 150" role="img" aria-label="An empty folder is fine; a folder that already contains a project is not.">
+
       <g font-family="Outfit,sans-serif">
+
         <rect x="30" y="30" width="270" height="90" rx="9" fill="#fffdfa" stroke="#b8721f" stroke-width="1.5"/>
+
         <text x="55" y="62" font-size="22">📁</text>
+
         <text x="92" y="62" font-size="14" font-weight="600" fill="#231f1a">H:\salonbook</text>
+
         <text x="92" y="83" font-size="11.5" fill="#867c72">empty — perfect</text>
+
         <text x="92" y="102" font-size="11.5" fill="#b8721f">the app is built here</text>
 
         <rect x="345" y="30" width="270" height="90" rx="9" fill="#fffdfa" stroke="#d4c8b8" stroke-width="1.2" stroke-dasharray="4 4"/>
+
         <text x="370" y="62" font-size="22">📁</text>
+
         <text x="407" y="62" font-size="14" font-weight="600" fill="#231f1a">H:\my-other-work</text>
+
         <text x="407" y="83" font-size="11.5" fill="#867c72">already has a project in it</text>
+
         <text x="407" y="102" font-size="11.5" fill="#867c72">the skill will stop and say so</text>
+
       </g>
+
     </svg>
+    <div class="projector-diagram-fallback" role="group" aria-label="Choosing a project folder in large-text form">
+      <div class="projector-diagram-card"><strong>New empty folder</strong><span>Perfect. The new app can be built here.</span></div>
+      <div class="projector-diagram-card"><strong>Folder with another project</strong><span>Stop and choose a new folder so existing work stays untouched.</span></div>
+    </div>
     <figcaption>Make a new folder, open the agent in it, and you can't go wrong.</figcaption>
   </figure>
 
   <h3>Then just talk</h3>
+
   <ol class="steps">
+
     <li><b>Start the skill</b> Type <code>/start-an-app</code>, or simply say what you want — <em>"I want a booking system for my salon"</em> works just as well.</li>
+
     <li><b>Describe the business</b> Not the software. What happens in your day, who rings you, what you write down.</li>
+
     <li><b>Answer the questions</b> Seven of them, each with a recommendation. <strong>"Whatever you recommend" is a complete answer</strong> to any of them.</li>
+
     <li><b>Check the plan</b> It reads the whole thing back — what it will remember, what you'll be able to do, and what's deliberately <em>not</em> in version one. Correct anything that's wrong. This is the cheapest moment to change your mind.</li>
+
     <li><b>Let it build</b> Ten to twenty minutes. It'll narrate as it goes.</li>
+
     <li><b>Use it</b> Then say what's wrong in your own words, and it fixes it.</li>
+
   </ol>
 
   <div class="note">
+
     <span class="tag">The most useful thing you can say</span>
+
     <p>When it asks what you do <em>today</em> — a spreadsheet, a paper diary, a WhatsApp group — answer properly, and offer to show it. The columns in your spreadsheet are, almost exactly, what the app needs to remember. That one answer saves more back-and-forth than anything else in the conversation.</p>
+
   </div>
+
 </section>
 
 <!-- 7 -->
+
 <section id="answers" class="rise">
+
   <div class="stage"><span class="num">7</span><h2>How to answer well</h2></div>
+
   <p class="lede">The questions are simple, but vague answers produce a vague app. Here's the difference, using a dog-grooming salon as the example.</p>
 
   <div class="qa">
+
     <p class="q"><span>Opening question</span>What are you building?</p>
+
     <div class="ans">
+
       <div class="weak"><span class="lbl">Vague</span>"A booking system."</div>
+
       <div class="good"><span class="lbl">Useful</span>"A diary for the salon. People ring up to book their dog in for a groom. I need to know whose dog, which dog, what they're having done, when, and anything I should remember about that dog."</div>
+
     </div>
+
     <p class="why"><b>Why:</b> the second one contains the entire data model. Every noun you say — owner, dog, groom, time — becomes something the app remembers.</p>
+
   </div>
 
   <div class="qa">
+
     <p class="q"><span>Question 1</span>Who's it for — your customers, your staff, or just you?</p>
+
     <div class="ans">
+
       <div class="weak"><span class="lbl">Vague</span>"Everyone, really."</div>
+
       <div class="good"><span class="lbl">Useful</span>"Me and my two groomers. Customers don't log in — we book them in over the phone."</div>
+
     </div>
+
     <p class="why"><b>Why:</b> this single answer decides the kind of database, whether there are logins, and who can see what. "Everyone" leaves all three unanswered.</p>
+
   </div>
 
   <div class="qa">
+
     <p class="q"><span>Question 2</span>Do people need their own login?</p>
+
     <div class="ans">
+
       <div class="weak"><span class="lbl">Vague</span>"Yes I suppose so."</div>
+
       <div class="good"><span class="lbl">Useful</span>"Yes — one each for me and the two girls. If someone leaves I want to remove just theirs."</div>
+
     </div>
+
     <p class="why"><b>Why:</b> the reason shapes the result. Individual logins mean you can remove one person without changing everybody's password — worth saying out loud.</p>
+
   </div>
 
   <div class="qa">
+
     <p class="q"><span>Question 3</span>Will people upload anything?</p>
+
     <div class="ans">
+
       <div class="weak"><span class="lbl">Vague</span>"Maybe photos at some point."</div>
+
       <div class="good"><span class="lbl">Useful</span>"Before and after photos on each groom. Nothing else."</div>
+
     </div>
+
     <p class="why"><b>Why:</b> "maybe later" builds nothing and clutters the conversation. <b>Saying no is a good answer</b> — anything can be added later, and a smaller first version is a better first version.</p>
+
   </div>
 
   <div class="qa">
+
     <p class="q"><span>Question 4</span>Will customers pay you through this?</p>
+
     <div class="ans">
+
       <div class="weak"><span class="lbl">Vague</span>"Eventually, probably."</div>
+
       <div class="good"><span class="lbl">Useful</span>"Not in version one — they pay in the salon. I'd like deposits for the big dogs later on."</div>
+
     </div>
+
     <p class="why"><b>Why:</b> payments drag in accounts, tax handling and a provider signup. Naming it as a <em>later</em> thing keeps your first version small enough to actually finish.</p>
+
   </div>
 
   <div class="qa">
+
     <p class="q"><span>Question 5</span>Should it do anything with AI?</p>
+
     <div class="ans">
+
       <div class="weak"><span class="lbl">Vague</span>"Yes, put AI in it."</div>
+
       <div class="good"><span class="lbl">Useful</span>"No — actually, could it write the reminder text I send the night before? I write the same one forty times a week."</div>
+
     </div>
+
     <p class="why"><b>Why:</b> AI added for its own sake is a gimmick you'll switch off. AI pointed at a job you actually repeat is the one you'll keep.</p>
+
   </div>
 
   <div class="qa">
+
     <p class="q"><span>Question 6</span>What should a first-time visitor see?</p>
+
     <div class="ans">
+
       <div class="weak"><span class="lbl">Vague</span>"The app, I suppose."</div>
+
       <div class="good"><span class="lbl">Useful</span>"Just a sign-in box. Nobody outside the salon should see anything at all."</div>
+
     </div>
+
     <p class="why"><b>Why:</b> this decides whether you get a public page describing your business, or a locked door. A staff tool with a marketing homepage is a very common way to make something feel fake.</p>
+
   </div>
 
   <div class="qa">
+
     <p class="q"><span>Question 7</span>Do you already have a website?</p>
+
     <div class="ans">
+
       <div class="weak"><span class="lbl">Vague</span>"No."</div>
+
       <div class="good"><span class="lbl">Useful</span>"Yes — groomroom.example. Match those colours." <em>or</em> "No, but I like how Notion looks. Calm and plain."</div>
+
     </div>
+
     <p class="why"><b>Why:</b> with an address it reads your real colours and fonts off the page and uses them throughout. Without one, a description of a look you like is nearly as good. Either beats the default grey.</p>
+
   </div>
 
   <hr />
+
   <h3>Two answers that are always fine</h3>
+
   <p><strong>"Whatever you recommend."</strong> Every technical question has a recommended default. You are not expected to have an opinion about databases.</p>
+
   <p><strong>"Not in version one."</strong> The skill asks directly what to leave out, and this is the answer that gets you something finished instead of something half-built.</p>
+
 </section>
 
 <!-- 8 -->
+
 <section id="ideas" class="rise">
+
   <div class="stage"><span class="num">8</span><h2>Things worth building</h2></div>
+
   <p class="lede">The best first app replaces a spreadsheet you already maintain, or a notebook you'd be lost without. Start there, not with the grand idea.</p>
 
   <div class="grid">
+
     <div class="card">
+
       <h4>Salon or grooming diary</h4>
+
       <p>Appointments, clients, and the details you only learn the hard way — hates the dryer, always late, prefers the small room.</p>
+
       <span class="say">"A diary for the salon that remembers the dogs."</span>
+
     </div>
+
     <div class="card">
+
       <h4>Vet or dental client records</h4>
+
       <p>Patients, owners, visit history and what's due next. The reminder list writes itself.</p>
+
       <span class="say">"Client records and what each animal is due for."</span>
+
     </div>
+
     <div class="card">
+
       <h4>Trades job sheets</h4>
+
       <p>Jobs, addresses, what was quoted, what was done, photos before and after. Ends the glovebox-full-of-receipts problem.</p>
+
       <span class="say">"Job sheets I can fill in on my phone at the van."</span>
+
     </div>
+
     <div class="card">
+
       <h4>Tutor or small school roster</h4>
+
       <p>Students, sessions, attendance and a note per lesson. Parents' reports come out of the notes you already made.</p>
+
       <span class="say">"Who I taught, when, and what we covered."</span>
+
     </div>
+
     <div class="card">
+
       <h4>Cleaning or maintenance rounds</h4>
+
       <p>Properties, visits, checklists and sign-off. Staff tick it off on a phone; you see it from the office.</p>
+
       <span class="say">"A checklist per property my cleaners tick off."</span>
+
     </div>
+
     <div class="card">
+
       <h4>Committee or HOA requests</h4>
+
       <p>Maintenance requests, who reported it, what was decided, what it cost. An audit trail that isn't an email thread.</p>
+
       <span class="say">"Track maintenance requests and what we decided."</span>
+
     </div>
+
     <div class="card">
+
       <h4>Coach or therapist client log</h4>
+
       <p>Clients, sessions, plans and check-ins. Private per client, with a history you can actually search.</p>
+
       <span class="say">"A private log of each client and their programme."</span>
+
     </div>
+
     <div class="card">
+
       <h4>Stock or supplier orders</h4>
+
       <p>What you carry, what's low, who you order it from and what you paid last time.</p>
+
       <span class="say">"What's running low and who I buy it from."</span>
+
     </div>
+
   </div>
 
   <div class="note plain">
+
     <span class="tag">A good test</span>
+
     <p>If you can describe the whole thing in two sentences without saying "and also", it's the right size for a first app. Everything else is version two — and version two is much easier once version one exists.</p>
+
   </div>
+
 </section>
 
 <!-- 9 -->
+
 <section id="after" class="rise">
+
   <div class="stage"><span class="num">9</span><h2>What happens after it's built</h2></div>
 
   <table>
+
     <thead><tr><th>What</th><th>Where it is</th></tr></thead>
+
     <tbody>
+
       <tr><td><b>Your app</b></td><td>Running on your machine. Start it any time with <code>pnpm dev</code>.</td></tr>
+
       <tr><td><b>A help guide</b></td><td>If the app is for staff or customers, a <code>?</code> in the corner opens a guide written from <em>your own answers</em>. New staff read that instead of asking you.</td></tr>
+
       <tr><td><b>DESIGN.md</b></td><td>A plain file listing your colours and fonts. Change a colour there and the whole app follows.</td></tr>
+
       <tr><td><b>Your data</b></td><td>In a real database, with a full record of every change to its structure.</td></tr>
+
     </tbody>
+
   </table>
 
   <h3>Two offers at the end</h3>
+
   <p>Both are <strong>offered, never done for you</strong>:</p>
+
   <ul>
+
     <li><strong>Put it on GitHub</strong> — a backup with history. It'll be <em>private by default</em>, and it will tell you so before creating it.</li>
+
     <li><strong>Put it online</strong> — a real web address you can open on your phone. Worth knowing: anyone with that link can open it, so it's a preview, not a launch.</li>
+
   </ul>
+
   <p>A proper launch — your own domain name, taking real payments, appearing in Google — is a separate conversation. Getting told that plainly is more useful than being half-launched by accident.</p>
 
   <h3>Then check it's safe</h3>
+
   <p>Once there's real data in it, run the other skill:</p>
+
   <div class="code"><button class="copy">copy</button>/security-scanner</div>
+
   <p>It writes a report of anything worth fixing. <strong>A finding is not a break-in.</strong> A brand-new app produces mostly low-priority notes — read the Critical and High counts first and ignore the noise.</p>
+
 </section>
 
 <!-- 10 -->
+
 <section id="wrong" class="rise">
+
   <div class="stage"><span class="num">10</span><h2>When something goes wrong</h2></div>
+
   <p class="lede">Every one of these came up while building a real app with this skill. Knowing the words helps you say the right thing to your agent.</p>
 
   <h4>"Invalid origin" when you try to sign in</h4>
+
   <p>The app moved to a different door number than it expected. Say: <em>"the app is on a different port — update the auth URL and restart it."</em></p>
 
   <h4>"name can no longer contain capital letters"</h4>
+
   <p>Your folder has a capital letter in it, and the naming rules don't allow that. The skill handles this itself now, but if you see it: <em>"work around the folder name."</em></p>
 
   <h4>It asks which Vercel team to use</h4>
+
   <p>You belong to more than one. <strong>Pick your own personal one</strong> — never a client's or an employer's, or your practice app ends up in their account.</p>
 
   <h4>The times are wrong by a few hours</h4>
+
   <p>A timezone problem, and a common one. Just say it plainly: <em>"the times are showing four hours early."</em> That's enough to fix it.</p>
 
   <h4>It's been quiet for a while</h4>
+
   <p>Installing takes a few minutes and looks like nothing is happening. Let it finish. If it's genuinely stuck, say <em>"what are you waiting on?"</em></p>
 
   <div class="note">
+
     <span class="tag">The general rule</span>
+
     <p>Describe the symptom, not the cure. You can see the app; the agent can read the code. Between the two of you that's everything — and you're the only one who knows what it's <em>supposed</em> to do.</p>
+
   </div>
+
 </section>
 
 <!-- 11 -->
+
 <section id="help" class="rise">
+
   <div class="stage"><span class="num">11</span><h2>If you'd rather not do it alone</h2></div>
+
   <p class="lede">Plenty of people read a guide like this, get halfway, and decide their time is better spent running their business. That's a perfectly sensible conclusion.</p>
+
   <p>I'm Emile du Toit. I build software for small businesses, and I teach owners to do it themselves when that's what they'd prefer — through <strong>BrainIT Consulting</strong>.</p>
 
   <div class="grid">
+
     <div class="card">
+
       <h4>Have it built for you</h4>
+
       <p>You describe the business, I build the app — the same way this guide describes, just without you at the keyboard. You end up owning the code and the accounts, not renting a subscription.</p>
+
       <span class="say">"Just build it for me."</span>
+
     </div>
+
     <div class="card">
+
       <h4>Learn to build it yourself</h4>
+
       <p>Sitting alongside you while you build your own first app, so the second one doesn't need anybody. Best if you want this to become a skill rather than a purchase.</p>
+
       <span class="say">"Walk me through my first one."</span>
+
     </div>
+
     <div class="card">
+
       <h4>Get unstuck</h4>
+
       <p>You've built something with an agent and hit a wall — it works but you don't trust it, or it broke and you can't tell why. A second pair of eyes on what you already have.</p>
+
       <span class="say">"It works, but should I trust it?"</span>
+
     </div>
+
   </div>
 
-  <p><a href="https://brainitconsulting.com"><strong>brainitconsulting.com</strong></a> — have a look, or just get in touch and describe the problem.</p>
+<p><a href="https://brainitconsulting.com" target="_blank" rel="noopener noreferrer"><strong>brainitconsulting.com</strong></a> — have a look, or just get in touch and describe the problem.</p>
 
   <div class="note plain">
+
     <span class="tag">Worth saying</span>
+
     <p>Nothing in this guide needs me. The skills are free, open source, and yours to use — that's the whole point of writing it down. The offer above is for people who'd rather buy the time back.</p>
+
   </div>
+
 </section>
 
 </main>
+
 </div>
 
 <footer>
-  <p>BrainIT Consulting · Free Field Guide No. 1 · <a href="https://github.com/brainit-consulting/skills">Open-source BrainIT skills</a> · Emile du Toit · <a href="https://brainitconsulting.com">brainitconsulting.com</a></p>
+
+<p>BrainIT Consulting · Free Field Guide No. 1 · <a href="https://github.com/brainit-consulting/skills" target="_blank" rel="noopener noreferrer">Open-source BrainIT skills</a> · Emile du Toit · <a href="https://brainitconsulting.com" target="_blank" rel="noopener noreferrer">brainitconsulting.com</a></p>
   <div class="end" aria-hidden="true"><i>◆◆◆</i></div>
+
 </footer>
 
 </div>
 
 <script>
+
   // copy buttons
+
   document.querySelectorAll('.copy').forEach(function(btn){
+
     btn.addEventListener('click', function(){
+
       var text = btn.parentNode.textContent.replace(/^copy/, '').trim();
+
       navigator.clipboard.writeText(text).then(function(){
+
         btn.textContent = 'copied'; btn.classList.add('done');
+
         setTimeout(function(){ btn.textContent = 'copy'; btn.classList.remove('done'); }, 1600);
+
       });
+
     });
+
   });
 
   // reveal on scroll
+
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   var risers = document.querySelectorAll('main .rise');
+
   if (reduce) {
+
     risers.forEach(function(el){ el.classList.add('in'); });
+
   } else {
+
     var io = new IntersectionObserver(function(entries){
+
       entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+
     }, { rootMargin: '0px 0px -12% 0px' });
+
     risers.forEach(function(el){ io.observe(el); });
+
   }
 
   // toc highlighting
-  var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
-  var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  var guideWrap = document.getElementById('brainit-field-guide');
+  var links = Array.prototype.slice.call(guideWrap.querySelectorAll('nav.toc a'));
+  // GoDaddy's HTML block may treat a plain #chapter link as navigation outside
+  // the embedded guide. Scroll the guide's own viewport instead.
+  links.forEach(function(a){
+    a.addEventListener('click', function(event){
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) !== '#') return;
+      var target = guideWrap.querySelector(href);
+      if (!target) return;
+      event.preventDefault();
+      if (window.innerWidth >= 1000) {
+        var guideRect = guideWrap.getBoundingClientRect();
+        var targetTop = target.getBoundingClientRect().top -
+          guideRect.top + guideWrap.scrollTop - 24;
+        guideWrap.scrollTo({
+          top:Math.max(0, targetTop),
+          behavior:reduce ? 'auto' : 'smooth'
+        });
+      } else {
+        target.scrollIntoView({ behavior:reduce ? 'auto' : 'smooth', block:'start' });
+      }
+    });
+  });
+  var sections = links.map(function(a){ return guideWrap.querySelector(a.getAttribute('href')); });
+
   var spy = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
+
       if (!e.isIntersecting) return;
+
       var i = sections.indexOf(e.target);
+
       links.forEach(function(a, j){ a.classList.toggle('on', i === j); });
+
     });
+
   }, { rootMargin: '-15% 0px -70% 0px' });
+
   sections.forEach(function(s){ if (s) spy.observe(s); });
+
 </script>
+  <!-- BRAINIT_PROJECTOR_READABILITY_SCRIPT_START -->
+  <script data-brainit-projector-readability>
+(() => {
+  const root = document.getElementById('brainit-field-guide');
+  if (!root || root.dataset.brainitReadabilityReady === 'true') return;
+  root.dataset.brainitReadabilityReady = 'true';
+
+  const selector = [
+    'p', 'li', 'span', 'small', 'label', 'button', 'summary', 'output',
+    'input', 'textarea', 'select', 'option', 'code', 'pre', 'blockquote', 'th', 'td',
+    'dt', 'dd', 'figcaption', 'legend', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    'b', 'strong', 'em', 'i', 'a', 'div', 'section', 'article', 'header', 'footer'
+  ].join(',');
+  let zoomOutput = document.getElementById('zoom-value');
+  if (!zoomOutput) {
+    const controls = document.createElement('div');
+    controls.className = 'brainit-projector-controls';
+    controls.setAttribute('role', 'group');
+    controls.setAttribute('aria-label', 'Presentation text size');
+    controls.innerHTML = '<button type="button" data-brainit-zoom-out title="Decrease text size" aria-label="Decrease text size">A−</button><output data-brainit-zoom-value aria-live="polite">100%</output><button type="button" data-brainit-zoom-in title="Increase text size" aria-label="Increase text size">A+</button>';
+    root.prepend(controls);
+    zoomOutput = controls.querySelector('[data-brainit-zoom-value]');
+    let generatedZoom = 100;
+    const setGeneratedZoom = next => {
+      generatedZoom = Math.max(85, Math.min(150, next));
+      zoomOutput.textContent = `${generatedZoom}%`;
+      scheduleReadabilityFloor();
+    };
+    controls.querySelector('[data-brainit-zoom-out]').addEventListener('click', () => setGeneratedZoom(generatedZoom - 5));
+    controls.querySelector('[data-brainit-zoom-in]').addEventListener('click', () => setGeneratedZoom(generatedZoom + 5));
+  }
+  let scheduled = false;
+
+  function authoredValue(element, property, dataKey) {
+    if (!(dataKey in element.dataset)) element.dataset[dataKey] = element.style[property] || '';
+    return element.dataset[dataKey];
+  }
+
+  function authoredMetric(element, property, dataKey) {
+    if (!(dataKey in element.dataset)) {
+      const value = Number.parseFloat(getComputedStyle(element)[property]);
+      element.dataset[dataKey] = Number.isFinite(value) ? String(value) : '';
+    }
+    return Number.parseFloat(element.dataset[dataKey]);
+  }
+
+  function hasReadableText(element) {
+    if (element.matches('input, textarea, select, option')) return true;
+    const style = getComputedStyle(element);
+    if (style.display === 'none' || style.visibility === 'hidden') return false;
+    return element.textContent.trim().length > 0;
+  }
+
+  function applyReadabilityFloor() {
+    scheduled = false;
+    const parsedZoom = Number.parseInt(zoomOutput?.textContent || '100', 10);
+    const zoom = Number.isFinite(parsedZoom) ? Math.max(85, Math.min(150, parsedZoom)) : 100;
+    // A small guard compensates for host-page scaling and browser fractional
+    // layout so the rendered minimum still reaches 16/20/24 CSS pixels.
+    const floor = 16.6 * zoom / 100;
+    root.style.setProperty('--brainit-readable-floor', `${floor}px`);
+    root.dataset.brainitZoom = String(zoom);
+    root.classList.toggle('brainit-projector-zoom', zoom >= 115);
+
+    root.querySelectorAll(selector).forEach(element => {
+      if (!hasReadableText(element)) return;
+      const authoredSize = authoredMetric(element, 'fontSize', 'brainitAuthoredComputedFontSize');
+      const authoredLineHeight = authoredMetric(element, 'lineHeight', 'brainitAuthoredComputedLineHeight');
+      const authoredFontStyle = authoredValue(element, 'fontSize', 'brainitAuthoredFontSize');
+      const authoredLineStyle = authoredValue(element, 'lineHeight', 'brainitAuthoredLineHeight');
+      if (!Number.isFinite(authoredSize) || authoredSize >= floor) {
+        element.style.fontSize = authoredFontStyle;
+        element.style.lineHeight = authoredLineStyle;
+        delete element.dataset.brainitFontFloor;
+        return;
+      }
+
+      element.style.fontSize = `${floor}px`;
+      element.style.lineHeight = authoredLineStyle;
+      if (Number.isFinite(authoredLineHeight) && authoredLineHeight / floor < 1.3) element.style.lineHeight = '1.35';
+      element.dataset.brainitFontFloor = 'true';
+    });
+  }
+
+  function scheduleReadabilityFloor() {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(applyReadabilityFloor);
+  }
+
+  if (zoomOutput) new MutationObserver(scheduleReadabilityFloor).observe(zoomOutput, {childList: true, characterData: true, subtree: true});
+  new MutationObserver(scheduleReadabilityFloor).observe(root, {childList: true, subtree: true});
+  addEventListener('resize', scheduleReadabilityFloor, {passive: true});
+  if (document.fonts?.ready) document.fonts.ready.then(scheduleReadabilityFloor);
+  scheduleReadabilityFloor();
+})();
+  </script>
+  <!-- BRAINIT_PROJECTOR_READABILITY_SCRIPT_END -->
 </body>
+
 </html>
+
