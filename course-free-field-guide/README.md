@@ -12,6 +12,8 @@ Codex heartbeat `publish-free-field-guide-course` is active for December 7 at 09
 
 ## Materials
 
+Launch announcement authorized by Emile on 24 October 2026: after confirming the course is live, publish `launch-post.txt` once to the CodeDungeon community with `banner.png`. Check for an existing matching announcement before posting. Record the post URL and verify its text, image and course link. Do not post early or send separate email notifications. The release automation now includes this announcement and pauses after both steps succeed.
+
 - `lessons.json`: six written lessons plus a ten-question self-marked quiz, answer key and practical completion check.
 - `cover.png`: uploaded as the Skool course cover (also its classroom thumbnail).
 - `banner.png`: uploaded to the welcome lesson.

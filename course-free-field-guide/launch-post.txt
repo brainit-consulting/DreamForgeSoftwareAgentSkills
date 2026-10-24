@@ -1,0 +1,22 @@
+TITLE: New free course: From Idea to Working App
+
+Have an idea for a small app, but not sure where to start?
+
+I've added a free, self-paced written course to the classroom: From Idea to Working App.
+
+Start with one useful task from your business or everyday life. Work through six short lessons on describing what you need, working with an AI coding agent, testing what it builds, and knowing what still needs attention before anyone relies on it.
+
+There are practical exercises, a companion field guide and a ten-question self-check quiz with answers and explanations.
+
+No videos to wait for. Read, try it, check your progress and continue at your own pace.
+
+One idea runs through the course: the prototype is not the product. Getting something working is a useful start. Testing, security and maintenance still matter.
+
+The course is free for members. Any AI tools or hosting you choose may have their own costs.
+
+Start here:
+https://www.skool.com/codedungeon-1002/classroom/5e7f1b1c
+
+What is one repetitive task you would like to make easier? Share the task below — no technical description needed.
+
+Emile
