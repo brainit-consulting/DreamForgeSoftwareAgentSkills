@@ -910,6 +910,15 @@ figure{max-width:100%;padding:20px;background:#f5f2e9;border:1px solid #d8ddd0;b
 .ans .good{border-color:#8ca27d;box-shadow:0 3px 0 #d8ddd0}.ans .weak{color:#596557}
 a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #a17b35;outline-offset:4px}
 @media(max-width:700px){header.masthead{margin-top:1rem;padding:24px 20px}.ans{grid-template-columns:1fr}.stage{gap:12px}main section{padding:20px 16px}figure{padding:8px}.facts li{white-space:normal}h2{overflow-wrap:normal}.code{overflow-x:auto}}
+/* Short Chapter 09 labels stay intact while descriptions use the remaining width. */
+#brainit-field-guide #after :is(th,td):first-child{white-space:nowrap;overflow-wrap:normal;word-break:normal;width:1%;padding-right:1.4rem}
+#brainit-field-guide #after td:nth-child(2){overflow-wrap:break-word}
+/* Keep the chapter rail compact on landscape iPads without shrinking reading text. */
+@media(min-width:1000px) and (max-width:1199px){
+  #brainit-field-guide .cols{grid-template-columns:210px minmax(0,1fr);gap:24px}
+  #brainit-field-guide.wrap{padding-inline:20px}
+  #brainit-field-guide main section{padding:20px}
+}
 @media(prefers-reduced-motion:reduce){.card:hover{transform:none}}
 @media print{header.masthead{background:white;color:#233b32;box-shadow:none}header.masthead :is(h1,.standfirst,.eyebrow,.facts,.facts b){color:#233b32;text-shadow:none}main section,.card,nav.toc{box-shadow:none}}
 </style>
